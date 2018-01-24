@@ -1,4 +1,4 @@
-package com.dropsnorz.showcasefx;
+package com.dropsnorz.showcasefx.example;
 
 import junit.framework.Test;
 import junit.framework.TestCase;
