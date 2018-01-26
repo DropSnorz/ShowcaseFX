@@ -4,9 +4,11 @@ import java.util.ArrayList;
 
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.event.EventHandler;
 import javafx.geometry.Bounds;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.Pane;
@@ -16,14 +18,24 @@ import javafx.scene.paint.CycleMethod;
 import javafx.scene.paint.RadialGradient;
 import javafx.scene.paint.Stop;
 
-public class Showcase extends Pane {
+public class Showcase extends StackPane {
 
 	protected StackPane showcaseContainer;
+	protected Pane contentContainer;
+	protected Pane backgroundPane;
 	protected ArrayList<ShowcaseStep> steps;
 	protected int currentStep;
 	protected ChangeListener<Number> resizeListener;
+	
+	protected ShowcaseBehaviour onClickBehaviour =  ShowcaseBehaviour.NEXT;
 
 	private static final String DEFAULT_STYLE_CLASS = "fx-showcase";
+
+	public enum ShowcaseBehaviour{
+		NEXT,
+		CLOSE,
+		NONE,
+	}
 
 	public Showcase() {
 
@@ -38,6 +50,16 @@ public class Showcase extends Pane {
 	private void initialize() {
 		this.setVisible(false);
 		this.getStyleClass().add(DEFAULT_STYLE_CLASS);
+		
+		this.contentContainer = new Pane();
+		this.backgroundPane = new Pane();
+		
+		this.setTraversableMask(false);
+				
+		this.getChildren().add(backgroundPane);
+		this.getChildren().add(contentContainer);
+
+		
 		this.currentStep = - 1;
 		this.steps = new ArrayList<ShowcaseStep>();
 
@@ -46,6 +68,19 @@ public class Showcase extends Pane {
 				updateShowcaseLayer();
 			}
 		};
+
+		this.backgroundPane.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
+
+			public void handle(MouseEvent e) {
+				processBehaviour(onClickBehaviour);
+
+			}
+		});
+		
+		this.contentContainer.setPickOnBounds(false);
+		this.setPickOnBounds(false);
+		
+		
 
 	}
 
@@ -67,11 +102,11 @@ public class Showcase extends Pane {
 			showStep();
 		}
 		else {
-			stop();
+			close();
 		}
 	}
 
-	public void stop() {
+	public void close() {
 		this.setVisible(false);
 		this.widthProperty().removeListener(resizeListener);
 		this.heightProperty().removeListener(resizeListener);
@@ -82,7 +117,7 @@ public class Showcase extends Pane {
 
 		ShowcaseStep showcaseStep = this.steps.get(this.currentStep);
 
-		this.getChildren().clear();
+		this.contentContainer.getChildren().clear();
 
 		updateShowcaseLayer();
 
@@ -107,9 +142,18 @@ public class Showcase extends Pane {
 				new Stop(0, Color.TRANSPARENT)
 				);
 
-		this.setBackground(new Background(new BackgroundFill(shadePaint, null, Insets.EMPTY)));
+		this.backgroundPane.setBackground(new Background(new BackgroundFill(shadePaint, null, Insets.EMPTY)));
 
 
+	}
+
+	private void processBehaviour(ShowcaseBehaviour behaviour) {
+		switch(behaviour) {
+
+		case NEXT: next(); break;
+		case CLOSE: close(); break;
+		default: break;
+		}
 	}
 
 
@@ -122,6 +166,11 @@ public class Showcase extends Pane {
 				this.showcaseContainer.getChildren().add(this);
 			}
 		}
+	}
+	
+	public void setTraversableMask(boolean traversable) {
+		
+		this.backgroundPane.setMouseTransparent(traversable);
 	}
 
 
