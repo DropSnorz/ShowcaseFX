@@ -129,7 +129,8 @@ public class Showcase extends StackPane {
 		ShowcaseStep showcaseStep = this.steps.get(this.currentStep);
 
 		Node target = showcaseStep.getTargetNode();
-		Bounds bounds = target.localToScene(target.getBoundsInLocal());
+		
+		Bounds bounds = showcaseContainer.sceneToLocal(target.localToScene(target.getBoundsInLocal()));
 		
 		Node backgroundNode;
 		
