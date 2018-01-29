@@ -23,6 +23,7 @@ public class Showcase extends StackPane {
 	protected StackPane showcaseContainer;
 	protected Pane contentContainer;
 	protected Pane backgroundPane;
+	protected ShowcaseBackground background;
 	protected ArrayList<ShowcaseStep> steps;
 	protected int currentStep;
 	protected ChangeListener<Number> resizeListener;
@@ -52,14 +53,14 @@ public class Showcase extends StackPane {
 		this.getStyleClass().add(DEFAULT_STYLE_CLASS);
 		
 		this.contentContainer = new Pane();
-		this.backgroundPane = new Pane();
+		this.backgroundPane = new StackPane();
 		
 		this.setTraversableMask(false);
 				
 		this.getChildren().add(backgroundPane);
 		this.getChildren().add(contentContainer);
 
-		
+		this.background = ShowcaseBackgroundShape.CIRCLE_FLAT;
 		this.currentStep = - 1;
 		this.steps = new ArrayList<ShowcaseStep>();
 
@@ -129,20 +130,10 @@ public class Showcase extends StackPane {
 
 		Node target = showcaseStep.getTargetNode();
 		Bounds bounds = target.localToScene(target.getBoundsInLocal());
-
-		double centerX = bounds.getMinX() + (bounds.getWidth() / 2);
-		double centerY = bounds.getMinY() + (bounds.getHeight() / 2);
-
-		double x_relative = centerX / this.showcaseContainer.getWidth();
-		double y_relative = centerY / this.showcaseContainer.getHeight();
-
-		RadialGradient shadePaint = new RadialGradient(
-				0,0, x_relative, y_relative, 0.3, true, CycleMethod.NO_CYCLE,
-				new Stop(1, Color.rgb(0, 0, 0, 0.6)),
-				new Stop(0, Color.TRANSPARENT)
-				);
-
-		this.backgroundPane.setBackground(new Background(new BackgroundFill(shadePaint, null, Insets.EMPTY)));
+		
+		Node backgroundNode = this.background.generateNode(this.getWidth(), this.getHeight(), bounds);
+		this.backgroundPane.getChildren().clear();
+		this.backgroundPane.getChildren().add(backgroundNode);
 
 
 	}
