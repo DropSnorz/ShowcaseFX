@@ -6,6 +6,7 @@ public class ShowcaseStep {
 	
 	protected Node targetNode;
 	protected Node content;
+	protected ShowcaseBackground background = null;
 	
 	
 	public ShowcaseStep(Node targetNode, Node content) {
@@ -32,6 +33,16 @@ public class ShowcaseStep {
 
 	public void setContent(Node content) {
 		this.content = content;
+	}
+
+
+	public ShowcaseBackground getBackground() {
+		return background;
+	}
+
+
+	public void setBackground(ShowcaseBackground background) {
+		this.background = background;
 	}
 	
 	

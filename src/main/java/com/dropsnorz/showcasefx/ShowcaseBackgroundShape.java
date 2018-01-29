@@ -65,6 +65,22 @@ public abstract class ShowcaseBackgroundShape implements ShowcaseBackground {
 		}
 		
 	};
+	
+	public static ShowcaseBackgroundShape RECTANGLE_FLAT = new ShowcaseBackgroundShape() {
+
+		@Override
+		public Shape generate(double parentWidth, double parentHeight, Bounds nodeBounds) {
+			
+			int offset = 10;
+			
+			Rectangle rectangle = new Rectangle(nodeBounds.getMinX() - offset, 
+					nodeBounds.getMinY() - offset, 
+					nodeBounds.getWidth() + 2*offset, 
+					nodeBounds.getHeight() + 2*offset);
+			return rectangle;
+		}
+		
+	};
 
 
 }

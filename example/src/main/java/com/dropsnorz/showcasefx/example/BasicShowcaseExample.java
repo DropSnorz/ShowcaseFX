@@ -1,6 +1,7 @@
 package com.dropsnorz.showcasefx.example;
 
 import com.dropsnorz.showcasefx.Showcase;
+import com.dropsnorz.showcasefx.ShowcaseBackgroundShape;
 
 import javafx.application.Application;
 import javafx.event.ActionEvent;
@@ -48,7 +49,7 @@ public class BasicShowcaseExample extends Application {
 		
 		Showcase showcase = new Showcase(root);
 		showcase.addStep(btn, new Label("Hello World"));
-		showcase.addStep(btn2, new Label("Hello World"));
+		showcase.addStep(btn2, new Label("Hello World"), ShowcaseBackgroundShape.RECTANGLE_FLAT);
 
 		showcase.start();
 	}

@@ -131,7 +131,16 @@ public class Showcase extends StackPane {
 		Node target = showcaseStep.getTargetNode();
 		Bounds bounds = target.localToScene(target.getBoundsInLocal());
 		
-		Node backgroundNode = this.background.generateNode(this.getWidth(), this.getHeight(), bounds);
+		Node backgroundNode;
+		
+		if(showcaseStep.getBackground() != null) {
+			backgroundNode = showcaseStep.getBackground().generateNode(this.getWidth(), this.getHeight(), bounds);
+		}
+		else {
+			backgroundNode = this.background.generateNode(this.getWidth(), this.getHeight(), bounds);
+		}
+		
+		 
 		this.backgroundPane.getChildren().clear();
 		this.backgroundPane.getChildren().add(backgroundNode);
 
@@ -171,6 +180,13 @@ public class Showcase extends StackPane {
 
 	public void addStep(Node targetNode, Node content) {
 		steps.add(new ShowcaseStep(targetNode, content));
+	}
+	
+	public void addStep(Node targetNode, Node content, ShowcaseBackground background) {
+		ShowcaseStep step = new ShowcaseStep(targetNode, content);
+		step.setBackground(background);
+		steps.add(step);
+		
 	}
 
 
