@@ -4,6 +4,7 @@ import com.dropsnorz.showcasefx.utils.BoundsUtils;
 
 import javafx.geometry.Bounds;
 import javafx.geometry.HPos;
+import javafx.geometry.Insets;
 import javafx.geometry.Point2D;
 import javafx.geometry.VPos;
 import javafx.scene.Node;
@@ -22,6 +23,7 @@ public class AutoShowcaseLayout extends ShowcaseLayout {
 		this.mainPane = new GridPane();
 		
 		this.mainPane.setMaxSize(Region.USE_COMPUTED_SIZE, Region.USE_COMPUTED_SIZE);
+		this.mainPane.setPadding(new Insets(10,10,10,10));
 		this.mainPane.setMouseTransparent(true);
 		
 	}

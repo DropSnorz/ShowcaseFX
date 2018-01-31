@@ -9,7 +9,7 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 
-public class SimpleStepView extends Pane {
+public class SimpleStepView extends VBox {
 	
 	protected Label titleLabel;
 	protected Label contentLabel;
@@ -17,9 +17,7 @@ public class SimpleStepView extends Pane {
 	
 	public SimpleStepView(String title, String content) {
 		
-		
-		VBox root = new VBox();
-		
+				
 		titleLabel = new Label(title);
 		titleLabel.setTextFill(Color.WHITE);
 		titleLabel.setFont(Font.font("Verdana", FontWeight.BOLD, 21));
@@ -29,10 +27,9 @@ public class SimpleStepView extends Pane {
 		contentLabel.setWrapText(true);
 
 				
-		root.getChildren().add(titleLabel);
-		root.getChildren().add(contentLabel);
+		this.getChildren().add(titleLabel);
+		this.getChildren().add(contentLabel);
 		
-		this.getChildren().add(root);
 		
 		
 	}
