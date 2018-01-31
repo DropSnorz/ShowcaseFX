@@ -23,8 +23,7 @@ public abstract class ShowcaseBackgroundShape implements ShowcaseBackground {
 		clip.setFill(Color.rgb(0, 0, 0, 0.6));
 
 		Pane pane = new Pane();
-		//pane.setBackground(new Background (new BackgroundFill(Color.rgb(0, 0, 0, 0.6), CornerRadii.EMPTY, null)));
-			
+		
 		final Rectangle inverse = new Rectangle();
 		inverse.setWidth( parentWidth );
 		inverse.setHeight( parentHeight);
@@ -32,7 +31,6 @@ public abstract class ShowcaseBackgroundShape implements ShowcaseBackground {
 		shape.setFill(Color.rgb(0, 0, 0, 0.6));
 
 		pane.getChildren().add(shape);
-		
 		
 		
 		return pane;
@@ -54,13 +52,11 @@ public abstract class ShowcaseBackgroundShape implements ShowcaseBackground {
 			double centerX = nodeBounds.getMinX() + (nodeBounds.getWidth() / 2);
 			double centerY = nodeBounds.getMinY() + (nodeBounds.getHeight() / 2);
 			
-			int radiusOffset = 30;
-			
+			int radiusOffset = 8;
 			
 			double radius = Math.max((nodeBounds.getWidth() / 2 + radiusOffset), (nodeBounds.getHeight() / 2 + radiusOffset));
 
 			Circle circle = new Circle(centerX, centerY, radius);
-
 			return circle;
 		}
 		

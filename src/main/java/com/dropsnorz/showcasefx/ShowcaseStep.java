@@ -1,5 +1,6 @@
 package com.dropsnorz.showcasefx;
 
+
 import javafx.scene.Node;
 
 public class ShowcaseStep {
@@ -14,6 +15,7 @@ public class ShowcaseStep {
 		this.targetNode = targetNode;
 		this.content = content;
 	}
+
 
 
 	public Node getTargetNode() {
@@ -44,7 +46,6 @@ public class ShowcaseStep {
 	public void setBackground(ShowcaseBackground background) {
 		this.background = background;
 	}
-	
 	
 
 }
