@@ -2,6 +2,7 @@ package com.dropsnorz.showcasefx.example;
 
 import com.dropsnorz.showcasefx.Showcase;
 import com.dropsnorz.showcasefx.ShowcaseBackgroundShape;
+import com.dropsnorz.showcasefx.events.ShowcaseEvent;
 import com.dropsnorz.showcasefx.views.SimpleStepView;
 
 import javafx.application.Application;
@@ -53,6 +54,14 @@ public class BasicShowcaseExample extends Application {
 		showcase.addStep(btn, new SimpleStepView("Hi !", "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat"));
 		showcase.addStep(btn2, new SimpleStepView("No Title !", "Hello World"), ShowcaseBackgroundShape.RECTANGLE_FLAT);
 
+		showcase.setOnShowcaseStopped(new EventHandler<ShowcaseEvent>() {
+
+			public void handle(ShowcaseEvent event) {
+				System.out.println(event.getEventType().getName());
+				
+			}
+			
+		});
 		showcase.start();
 	}
 	

@@ -2,12 +2,15 @@ package com.dropsnorz.showcasefx;
 
 import java.util.ArrayList;
 
+import com.dropsnorz.showcasefx.events.ShowcaseEvent;
 import com.dropsnorz.showcasefx.layouts.AutoShowcaseLayout;
 import com.dropsnorz.showcasefx.layouts.ShowcaseLayout;
 import com.dropsnorz.showcasefx.utils.BoundsUtils;
 
 import com.dropsnorz.showcasefx.views.SimpleStepView;
 
+import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.EventHandler;
@@ -45,6 +48,7 @@ public class Showcase extends StackPane {
 
 	protected ShowcaseBehaviour onClickBehaviour =  ShowcaseBehaviour.NEXT;
 
+
 	private static final String DEFAULT_STYLE_CLASS = "fx-showcase";
 
 	public enum ShowcaseBehaviour{
@@ -66,9 +70,9 @@ public class Showcase extends StackPane {
 	private void initialize() {
 		this.setVisible(false);
 		this.getStyleClass().add(DEFAULT_STYLE_CLASS);
-		
+
 		layout = new AutoShowcaseLayout();
-		
+
 		this.backgroundPane = new StackPane();
 
 		this.setTraversableMask(false);
@@ -93,8 +97,8 @@ public class Showcase extends StackPane {
 			}
 		});
 
-		
-		
+
+
 		//this.contentContainer.setPickOnBounds(false);
 		this.setPickOnBounds(false);
 
@@ -108,6 +112,8 @@ public class Showcase extends StackPane {
 		this.heightProperty().addListener(resizeListener);
 
 		next();
+		
+		this.onShowcaseStartedProperty.get().handle(new ShowcaseEvent(ShowcaseEvent.STARTED));
 
 	}
 
@@ -120,21 +126,21 @@ public class Showcase extends StackPane {
 			showStep();
 		}
 		else {
-			close();
+			stop();
 		}
 	}
 
-	public void close() {
+	public void stop() {
 		this.setVisible(false);
+		this.onShowcaseStoppedProperty.get().handle(new ShowcaseEvent(ShowcaseEvent.STOPPED));
 		this.widthProperty().removeListener(resizeListener);
 		this.heightProperty().removeListener(resizeListener);
 		this.currentStep = - 1;
 	}
 
-	private void showStep() {
+	private void showStep() {		
 
-		ShowcaseStep showcaseStep = this.steps.get(this.currentStep);
-
+		this.onShowcaseStepDisplayProperty.get().handle(new ShowcaseEvent(ShowcaseEvent.STEP_DISPLAY));
 		updateShowcaseLayer();
 
 	}
@@ -161,11 +167,11 @@ public class Showcase extends StackPane {
 		this.backgroundPane.getChildren().add(backgroundNode);
 
 		Node contentNode = showcaseStep.getContent();		
-		
+
 		this.layout.addContentNode(contentNode, targetBounds, this.getWidth(), this.getHeight());
-		
+
 		Node finalContent = this.layout.getNode();
-		
+
 		this.getChildren().remove(finalContent);
 		this.getChildren().add(finalContent);
 
@@ -176,7 +182,7 @@ public class Showcase extends StackPane {
 		switch(behaviour) {
 
 		case NEXT: next(); break;
-		case CLOSE: close(); break;
+		case CLOSE: stop(); break;
 		default: break;
 		}
 	}
@@ -192,8 +198,8 @@ public class Showcase extends StackPane {
 			}
 		}
 	}
-	
-	
+
+
 
 	public ShowcaseLayout getLayout() {
 		return layout;
@@ -221,6 +227,67 @@ public class Showcase extends StackPane {
 		steps.add(step);
 
 	}
+
+
+	/**
+	 * 
+	 * EVENTS
+	 * 
+	 */
+
+	
+    private ObjectProperty<EventHandler<? super ShowcaseEvent>> onShowcaseStartedProperty = new SimpleObjectProperty<>((started) -> {
+    });
+
+    /**
+     * Defines a function to be called when the showcase is started.
+     * It will be triggered after the start animation is finished.
+     */
+    public void setOnShowcaseStarted(EventHandler<? super ShowcaseEvent> handler) {
+    	onShowcaseStartedProperty.set(handler);
+    }
+
+    public EventHandler<? super ShowcaseEvent> getOnShowcaseStarted() {
+        return onShowcaseStartedProperty.get();
+}
+    
+
+	private ObjectProperty<EventHandler<? super ShowcaseEvent>> onShowcaseStoppedProperty = new SimpleObjectProperty<>((stopped) -> {
+	});
+
+	/**
+	 * Defines a function to be called when the showcase is stopped.
+	 * It will be triggered after the close animation is finished.
+	 */
+	public void setOnShowcaseStopped(EventHandler<? super ShowcaseEvent> handler) {
+		onShowcaseStoppedProperty.set(handler);
+	}
+
+	public EventHandler<? super ShowcaseEvent> getOnShowcaseStopped() {
+		return onShowcaseStoppedProperty.get();
+	}
+	
+	
+	private ObjectProperty<EventHandler<? super ShowcaseEvent>> onShowcaseStepDisplayProperty = new SimpleObjectProperty<>((stopped) -> {
+	});
+
+	/**
+	 * Defines a function to be called when the showcase is stopped.
+	 * It will be triggered after the close animation is finished.
+	 */
+	public void setOnShowcaseStepDisplay(EventHandler<? super ShowcaseEvent> handler) {
+		onShowcaseStepDisplayProperty.set(handler);
+	}
+
+	public EventHandler<? super ShowcaseEvent> getOnShowcaseStepDisplay() {
+		return onShowcaseStepDisplayProperty.get();
+	}
+	
+	
+
+
+
+
 
 
 }
