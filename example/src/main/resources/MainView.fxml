@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import com.jfoenix.controls.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+<StackPane fx:id="rootPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.dropsnorz.showcasefx.example.pets.PetsController">
+   <children>
+      <BorderPane prefHeight="200.0" prefWidth="200.0">
+         <center>
+            <JFXListView fx:id="petsList" prefHeight="271.0" prefWidth="384.0" BorderPane.alignment="CENTER" />
+         </center>
+         <left>
+            <VBox BorderPane.alignment="CENTER">
+               <children>
+                  <HBox alignment="BASELINE_LEFT" prefHeight="50.0" prefWidth="256.0" spacing="10.0">
+                     <children>
+                        <Label text="Name" HBox.hgrow="ALWAYS" />
+                        <JFXTextField fx:id="nameTextField" prefHeight="25.0" prefWidth="196.0" HBox.hgrow="ALWAYS" />
+                     </children>
+                  </HBox>
+                  <HBox alignment="BASELINE_LEFT" prefHeight="50.0" prefWidth="200.0" spacing="10.0">
+                     <children>
+                        <Label text="Type" />
+                        <JFXComboBox fx:id="typeComboBox" maxWidth="230.0" prefHeight="25.0" promptText="Select a type..." HBox.hgrow="ALWAYS" />
+                     </children>
+                  </HBox>
+                  <HBox alignment="CENTER_RIGHT" prefWidth="200.0">
+                     <children>
+                        <JFXButton fx:id="addButton" buttonType="RAISED" text="Add" />
+                     </children>
+                  </HBox>
+               </children>
+               <BorderPane.margin>
+                  <Insets right="20.0" />
+               </BorderPane.margin>
+            </VBox>
+         </left>
+         <padding>
+            <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+         </padding>
+         <top>
+            <HBox alignment="CENTER_RIGHT" BorderPane.alignment="CENTER">
+               <children>
+                  <JFXButton fx:id="helpButton" buttonType="RAISED" text="Help !" />
+               </children>
+               <BorderPane.margin>
+                  <Insets bottom="20.0" />
+               </BorderPane.margin>
+            </HBox>
+         </top>
+         <bottom>
+            <HBox alignment="CENTER_RIGHT" prefWidth="660.0" BorderPane.alignment="CENTER">
+               <children>
+                  <JFXButton fx:id="leaveButton" buttonType="RAISED" text="Leave" />
+               </children>
+               <padding>
+                  <Insets top="20.0" />
+               </padding>
+            </HBox>
+         </bottom>
+      </BorderPane>
+   </children>
+</StackPane>

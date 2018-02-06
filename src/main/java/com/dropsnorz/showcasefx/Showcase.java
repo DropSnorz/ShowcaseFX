@@ -253,7 +253,6 @@ public class Showcase extends StackPane {
 	}
 
 
-
 	public ShowcaseLayout getLayout() {
 		return layout;
 	}
@@ -279,6 +278,10 @@ public class Showcase extends StackPane {
 		step.setBackground(background);
 		steps.add(step);
 
+	}
+
+	public void addStep(Node target, String title, String content) {
+		addStep(target, new SimpleStepView(title, content));
 	}
 
 	/**
@@ -370,12 +373,6 @@ public class Showcase extends StackPane {
 	public EventHandler<? super ShowcaseEvent> getOnShowcaseStepDisplay() {
 		return onShowcaseStepDisplayProperty.get();
 	}
-
-
-
-
-
-
 
 
 }
