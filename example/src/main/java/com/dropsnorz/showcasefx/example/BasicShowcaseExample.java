@@ -51,8 +51,8 @@ public class BasicShowcaseExample extends Application {
 		
 		Showcase showcase = new Showcase(root);
 		
-		showcase.addStep(btn, new SimpleStepView("Hi !", "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat"));
-		showcase.addStep(btn2, new SimpleStepView("No Title !", "Hello World"), ShowcaseBackgroundShape.RECTANGLE_FLAT);
+		showcase.createStep(btn, new SimpleStepView("Hi !", "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat"));
+		showcase.createStep(btn2, new SimpleStepView("No Title !", "Hello World")).setLayer(ShowcaseBackgroundShape.RECTANGLE_FLAT);
 
 		showcase.setOnShowcaseStopped(new EventHandler<ShowcaseEvent>() {
 

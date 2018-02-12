@@ -1,6 +1,8 @@
 package com.dropsnorz.showcasefx;
 
 
+import com.dropsnorz.showcasefx.layouts.ShowcaseLayout;
+
 import javafx.scene.Node;
 
 public class ShowcaseStep {
@@ -8,6 +10,7 @@ public class ShowcaseStep {
 	protected Node targetNode;
 	protected Node content;
 	protected ShowcaseBackground background = null;
+	protected ShowcaseLayout layout = null;
 	
 	
 	public ShowcaseStep(Node targetNode, Node content) {
@@ -45,6 +48,16 @@ public class ShowcaseStep {
 
 	public void setBackground(ShowcaseBackground background) {
 		this.background = background;
+	}
+
+
+
+	public ShowcaseLayout getLayout() {
+		return layout;
+	}
+
+	public void setLayout(ShowcaseLayout layout) {
+		this.layout = layout;
 	}
 	
 

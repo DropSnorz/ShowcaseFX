@@ -46,11 +46,13 @@ public class Showcase extends StackPane {
 	protected StackPane showcaseContainer;
 	protected Pane backgroundPane;
 	protected ShowcaseLayout layout;
-	protected ShowcaseBackground background;
+	protected ShowcaseBackground defaultBackground;
 	protected ArrayList<ShowcaseStep> steps;
 	protected int currentStep;
 	protected ChangeListener<Number> resizeListener;
-	
+
+	protected Node currentLayoutNode;
+
 	protected int transitionDelay = 500;
 
 	protected ShowcaseBehaviour onClickBehaviour =  ShowcaseBehaviour.NEXT;
@@ -86,7 +88,7 @@ public class Showcase extends StackPane {
 
 		this.getChildren().add(backgroundPane);
 
-		this.background = ShowcaseBackgroundShape.CIRCLE_FLAT;
+		this.defaultBackground = ShowcaseBackgroundShape.CIRCLE_FLAT;
 		this.currentStep = - 1;
 		this.steps = new ArrayList<ShowcaseStep>();
 
@@ -145,10 +147,12 @@ public class Showcase extends StackPane {
 		else {
 			stop();
 		}
+		
+		
 	}
 
 	public void stop() {
-		
+
 		Transition fadeOut = this.getFadeOutTransition();
 		fadeOut.setOnFinished(new EventHandler<ActionEvent>() {
 
@@ -200,33 +204,49 @@ public class Showcase extends StackPane {
 
 	private void updateShowcaseLayer() {
 
-		ShowcaseStep showcaseStep = this.steps.get(this.currentStep);
+		if(currentStep < this.steps.size())
+		{
 
-		Node target = showcaseStep.getTargetNode();
+			ShowcaseStep showcaseStep = this.steps.get(this.currentStep);
 
-		Bounds targetBounds = showcaseContainer.sceneToLocal(target.localToScene(target.getBoundsInLocal()));
+			Node target = showcaseStep.getTargetNode();
 
-		Node backgroundNode;
+			Bounds targetBounds = showcaseContainer.sceneToLocal(target.localToScene(target.getBoundsInLocal()));
 
-		if(showcaseStep.getBackground() != null) {
-			backgroundNode = showcaseStep.getBackground().generateNode(this.getWidth(), this.getHeight(), targetBounds);
+			Node backgroundNode;
+
+			if(showcaseStep.getBackground() != null) {
+				backgroundNode = showcaseStep.getBackground().generateNode(this.getWidth(), this.getHeight(), targetBounds);
+			}
+			else {
+				backgroundNode = this.defaultBackground.generateNode(this.getWidth(), this.getHeight(), targetBounds);
+			}
+
+
+			this.backgroundPane.getChildren().clear();
+			this.backgroundPane.getChildren().add(backgroundNode);
+
+			Node contentNode = showcaseStep.getContent();
+
+			ShowcaseLayout currentLayout;
+			if(showcaseStep.getLayout() != null) {
+				currentLayout = showcaseStep.getLayout();
+			}
+			else {
+
+				currentLayout = this.layout;
+			}
+
+			currentLayout.addContentNode(contentNode, targetBounds, this.getWidth(), this.getHeight());
+
+			if(currentLayoutNode !=null) {
+				this.getChildren().remove(currentLayoutNode);
+
+			}
+			this.currentLayoutNode = currentLayout.getNode();
+
+			this.getChildren().add(currentLayoutNode);
 		}
-		else {
-			backgroundNode = this.background.generateNode(this.getWidth(), this.getHeight(), targetBounds);
-		}
-
-
-		this.backgroundPane.getChildren().clear();
-		this.backgroundPane.getChildren().add(backgroundNode);
-
-		Node contentNode = showcaseStep.getContent();		
-
-		this.layout.addContentNode(contentNode, targetBounds, this.getWidth(), this.getHeight());
-
-		Node finalContent = this.layout.getNode();
-
-		this.getChildren().remove(finalContent);
-		this.getChildren().add(finalContent);
 
 
 	}
@@ -253,6 +273,9 @@ public class Showcase extends StackPane {
 	}
 
 
+	public void setDefaultBackground(ShowcaseBackground background) {
+		this.defaultBackground = background;
+	}
 	public ShowcaseLayout getLayout() {
 		return layout;
 	}
@@ -269,19 +292,15 @@ public class Showcase extends StackPane {
 		steps.add(step);
 	}
 
-	public void addStep(Node targetNode, Node content) {
-		steps.add(new ShowcaseStep(targetNode, content));
+	public StepBuilder createStep(Node targetNode, Node content) {
+		StepBuilder builder = new StepBuilder(targetNode, content);
+		steps.add(builder.getStep());
+
+		return builder;
 	}
 
-	public void addStep(Node targetNode, Node content, ShowcaseBackground background) {
-		ShowcaseStep step = new ShowcaseStep(targetNode, content);
-		step.setBackground(background);
-		steps.add(step);
-
-	}
-
-	public void addStep(Node target, String title, String content) {
-		addStep(target, new SimpleStepView(title, content));
+	public StepBuilder createStep(Node target, String title, String content) {
+		return createStep(target, new SimpleStepView(title, content));
 	}
 
 	/**
@@ -308,7 +327,7 @@ public class Showcase extends StackPane {
 
 		return ft;
 	}
-	
+
 	/**
 	 * Set the Showcase transition animation delay in miliseconds.
 	 * @param delay

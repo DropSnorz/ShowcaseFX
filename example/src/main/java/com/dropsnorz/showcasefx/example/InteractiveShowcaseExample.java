@@ -59,8 +59,8 @@ public class InteractiveShowcaseExample extends Application {
 		primaryStage.show();
 		
 		Showcase showcase = new Showcase(centerPane);
-		showcase.addStep(btn, new Label("Hello World"));
-		showcase.addStep(btn2, new Label("Hello World"), ShowcaseBackgroundShape.RECTANGLE_FLAT);
+		showcase.createStep(btn, new Label("Hello World"));
+		showcase.createStep(btn2, new Label("Hello World")).setLayer(ShowcaseBackgroundShape.RECTANGLE_FLAT);
 
 		showcase.start();
 	}

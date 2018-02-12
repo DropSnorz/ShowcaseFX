@@ -4,6 +4,9 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 import com.dropsnorz.showcasefx.Showcase;
+import com.dropsnorz.showcasefx.ShowcaseBackgroundShape;
+import com.dropsnorz.showcasefx.ShowcaseStep;
+import com.dropsnorz.showcasefx.layouts.AutoShowcaseLayout;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXListView;
@@ -40,11 +43,19 @@ public class PetsController implements Initializable {
 		
 		showcase = new Showcase(rootPane);
 		
-		showcase.addStep(nameTextField, "Create a new Pet #1", "Write the name of your pet here.");
-		showcase.addStep(typeComboBox, "Create a new Pet #2", "Select the type of your pet.");
-		showcase.addStep(addButton, "Create a new Pet #3", "When you have filled all informations, just press the add button");
-		showcase.addStep(petsList, "View all Pet", "After adding a pet, it will be display here, with all his previsously added friends");
-		showcase.addStep(leaveButton, "Bye !", "You can close the app by clicking the Leave button");
+		showcase.setDefaultBackground(ShowcaseBackgroundShape.RECTANGLE_FLAT);
+		
+		AutoShowcaseLayout bigLayout = new AutoShowcaseLayout();
+		bigLayout.setRowOffset(-1);
+		bigLayout.setRowSpan(2);
+		
+		showcase.createStep(nameTextField, "Create a new Pet #1", "Write the name of your pet here.");
+		showcase.createStep(typeComboBox, "Create a new Pet #2", "Select the type of your pet.");
+		showcase.createStep(addButton, "Create a new Pet #3", "When you have filled all informations, just press the add button");
+				
+		showcase.createStep(petsList, "View all Pet", "After adding a pet, it will be display here, with all his previsously added friends").setLayout(bigLayout);
+				
+		showcase.createStep(leaveButton, "Bye !", "You can close the app by clicking the Leave button");
 		
 		helpButton.setOnAction(new EventHandler<ActionEvent>() {
 

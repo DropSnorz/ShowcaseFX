@@ -19,6 +19,12 @@ public class AutoShowcaseLayout extends ShowcaseLayout {
 	
 	protected GridPane mainPane;
 	
+	private int gridColOffset = 0;
+	private int gridRowOffset = 0;
+	private int gridColSpan = 1;
+	private int gridRowSpan = 1;
+	
+	
 	public AutoShowcaseLayout() {
 		
 		this.mainPane = new GridPane();
@@ -74,7 +80,16 @@ public class AutoShowcaseLayout extends ShowcaseLayout {
 			col2.setHgrow(Priority.ALWAYS);
 		}
 		
-		GridPane.setConstraints(content, columnIndex, rowIndex, 1, 1, HPos.CENTER, VPos.CENTER);
+		if(columnIndex + gridColOffset >= 0) {
+			columnIndex = columnIndex + gridColOffset;
+		}
+		
+		if(rowIndex + gridRowOffset >= 0) {
+			rowIndex = rowIndex + gridRowOffset;
+		}
+		
+		
+		GridPane.setConstraints(content, columnIndex, rowIndex, this.gridColSpan, this.gridRowSpan, HPos.CENTER, VPos.CENTER);
 		
 		this.mainPane.getColumnConstraints().clear();
 		this.mainPane.getColumnConstraints().addAll(col0, col1, col2);
@@ -86,11 +101,28 @@ public class AutoShowcaseLayout extends ShowcaseLayout {
 		this.mainPane.getChildren().add(content);
 
 		//Debug
-		this.mainPane.setGridLinesVisible(false);
-		this.mainPane.setGridLinesVisible(true);
+		//this.mainPane.setGridLinesVisible(false);
+		//this.mainPane.setGridLinesVisible(true);
 		
 	}
-
+	
+	public void setColumnOffset(int offset) {
+		this.gridColOffset = offset;
+	}
+	
+	public void setColumnSpan(int offset) {
+		this.gridColSpan = offset;
+	}
+	
+	public void setRowOffset(int offset) {
+		this.gridRowOffset = offset;
+	}
+	
+	public void setRowSpan(int offset) {
+		this.gridRowSpan = offset;
+	}
+	
+	
 	@Override
 	public Node getNode() {
 		// TODO Auto-generated method stub
