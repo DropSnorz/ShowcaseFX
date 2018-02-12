@@ -6,6 +6,7 @@ import javafx.geometry.Bounds;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.geometry.Point2D;
+import javafx.geometry.Pos;
 import javafx.geometry.VPos;
 import javafx.scene.Node;
 import javafx.scene.layout.ColumnConstraints;
@@ -21,11 +22,11 @@ public class AutoShowcaseLayout extends ShowcaseLayout {
 	public AutoShowcaseLayout() {
 		
 		this.mainPane = new GridPane();
-		
+				
 		this.mainPane.setMaxSize(Region.USE_COMPUTED_SIZE, Region.USE_COMPUTED_SIZE);
 		this.mainPane.setPadding(new Insets(10,10,10,10));
 		this.mainPane.setMouseTransparent(true);
-				
+						
 	}
 
 	@Override
@@ -39,48 +40,54 @@ public class AutoShowcaseLayout extends ShowcaseLayout {
 		
 		ColumnConstraints col0 = new ColumnConstraints();
 		ColumnConstraints col1 = new ColumnConstraints();
+		ColumnConstraints col2 = new ColumnConstraints();
+
 		RowConstraints row0 = new RowConstraints();
 		RowConstraints row1 = new RowConstraints();
+		RowConstraints row2 = new RowConstraints();
 
 		if (targetCenter.getY() > midY) {
 			// target is in lower half of screen
-			rowIndex = 0;
+			rowIndex = 1;
 			
-			row1.setPrefHeight(targetBoundsInParent.getHeight() + 2 * 20);
+			row2.setPrefHeight(targetBoundsInParent.getHeight()  + 20);
 			row0.setVgrow(Priority.ALWAYS);
-
-
+			
+			
 		} else {
 			// target is in upper half of screen
 			rowIndex = 1;
-			row0.setPrefHeight(targetBoundsInParent.getHeight() + 2 *  20);
-			row1.setVgrow(Priority.ALWAYS);
+			row0.setPrefHeight(targetBoundsInParent.getMaxY() + 20);
+			row2.setVgrow(Priority.ALWAYS);
 		}
 		if (targetCenter.getX() > midX) {
 			// target is in right half of screen
-			columnIndex = 0;
-			col1.setPrefWidth(targetBoundsInParent.getWidth() + 2 * 20);
+			columnIndex = 1;
+			col2.setPrefWidth(targetBoundsInParent.getWidth() + 20);
 			col0.setHgrow(Priority.ALWAYS);
+						
 
 		} else {
 			// target is in left half of screen
 			columnIndex = 1;
-			col0.setPrefWidth(targetBoundsInParent.getWidth() + 2 * 20);
-			col1.setHgrow(Priority.ALWAYS);
+			col0.setPrefWidth(targetBoundsInParent.getMaxX() + 20);
+			col2.setHgrow(Priority.ALWAYS);
 		}
 		
-		GridPane.setConstraints(content, columnIndex, rowIndex, 1, 1, HPos.CENTER,VPos.CENTER);
-		
+		GridPane.setConstraints(content, columnIndex, rowIndex, 1, 1, HPos.CENTER, VPos.CENTER);
 		
 		this.mainPane.getColumnConstraints().clear();
-		this.mainPane.getColumnConstraints().addAll(col0, col1);
+		this.mainPane.getColumnConstraints().addAll(col0, col1, col2);
 		this.mainPane.getRowConstraints().clear();
-		this.mainPane.getRowConstraints().addAll(row0, row1);
+		this.mainPane.getRowConstraints().addAll(row0, row1, row2);
 		
 		
 		this.mainPane.getChildren().clear();
 		this.mainPane.getChildren().add(content);
 
+		//Debug
+		this.mainPane.setGridLinesVisible(false);
+		this.mainPane.setGridLinesVisible(true);
 		
 	}
 
