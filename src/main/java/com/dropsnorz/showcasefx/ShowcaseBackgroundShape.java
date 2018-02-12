@@ -28,7 +28,7 @@ public abstract class ShowcaseBackgroundShape implements ShowcaseBackground {
 		inverse.setWidth( parentWidth );
 		inverse.setHeight( parentHeight);
 		Shape shape = Shape.subtract( inverse, clip );
-		shape.setFill(Color.rgb(0, 0, 0, 0.6));
+		shape.setFill(Color.rgb(0, 0, 0, 0.7));
 
 		pane.getChildren().add(shape);
 		

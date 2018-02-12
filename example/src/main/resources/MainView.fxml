@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.text.*?>
 <?import javafx.geometry.*?>
 <?import com.jfoenix.controls.*?>
 <?import javafx.scene.control.*?>
@@ -42,9 +43,21 @@
             <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
          </padding>
          <top>
-            <HBox alignment="CENTER_RIGHT" BorderPane.alignment="CENTER">
+            <HBox>
                <children>
-                  <JFXButton fx:id="helpButton" buttonType="RAISED" text="Help !" />
+                  <Label text="🦄 Pets">
+                     <font>
+                        <Font size="28.0" />
+                     </font>
+                  </Label>
+                  <HBox alignment="CENTER_RIGHT" BorderPane.alignment="CENTER" HBox.hgrow="ALWAYS">
+                     <children>
+                        <JFXButton fx:id="helpButton" buttonType="RAISED" text="Help !" />
+                     </children>
+                     <BorderPane.margin>
+                        <Insets bottom="20.0" />
+                     </BorderPane.margin>
+                  </HBox>
                </children>
                <BorderPane.margin>
                   <Insets bottom="20.0" />

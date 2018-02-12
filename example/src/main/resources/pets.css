@@ -1,0 +1,21 @@
+@font-face {
+    font-family: 'OpenSansEmoji';
+    src: url('OpenSansEmoji.ttf');
+}
+
+#rootPane{
+	-fx-background-color:linear-gradient(to top, #bdc2e8  0%,  #e6dee9 100%);
+}
+
+
+.text-field {
+    -fx-font-family: OpenSansEmoji;
+}
+
+.combo-box {
+    -fx-font-family: OpenSansEmoji;
+}
+
+.list-cell{
+    -fx-font-family: OpenSansEmoji;
+}

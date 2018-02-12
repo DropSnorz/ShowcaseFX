@@ -41,8 +41,8 @@ public class App extends Application {
 		}
 
 		Scene scene = new Scene(rootNode, width, height);
-		//String css = App.class.getResource("/style.css").toExternalForm();
-		//scene.getStylesheets().add(css);
+		String css = App.class.getResource("/pets.css").toExternalForm();
+		scene.getStylesheets().add(css);
 		
 		primaryStage.setScene(scene);
 		primaryStage.centerOnScreen();

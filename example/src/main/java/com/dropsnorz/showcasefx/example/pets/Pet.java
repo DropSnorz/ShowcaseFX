@@ -6,7 +6,7 @@ public class Pet {
 	protected String name;
 	
 	
-	public Pet(PetType type, String name) {
+	public Pet(String name, PetType type) {
 		super();
 		this.type = type;
 		this.name = name;
@@ -33,7 +33,10 @@ public class Pet {
 	}
 	
 	
-	
+	public String toString() {
+		
+		return  type.toString() + " - " + name;
+	}
 	
 	
 	

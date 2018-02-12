@@ -67,7 +67,7 @@ public abstract class ShowcaseBackgroundFill implements ShowcaseBackground {
 			RadialGradient shadePaint = new RadialGradient(
 					0,0, centerX, centerY, size / 2, false, CycleMethod.NO_CYCLE,
 					new Stop(0.98, Color.TRANSPARENT),
-					new Stop(1, Color.rgb(0, 0, 0, 0.6))
+					new Stop(1, Color.rgb(0, 0, 0, 0.7))
 					);
 			
 			return new Background(new BackgroundFill(shadePaint, null, Insets.EMPTY));

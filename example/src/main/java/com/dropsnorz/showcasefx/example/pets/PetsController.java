@@ -1,6 +1,8 @@
 package com.dropsnorz.showcasefx.example.pets;
 
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
 
 import com.dropsnorz.showcasefx.Showcase;
@@ -9,9 +11,12 @@ import com.dropsnorz.showcasefx.ShowcaseStep;
 import com.dropsnorz.showcasefx.layouts.AutoShowcaseLayout;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
+import com.jfoenix.controls.JFXDialog;
 import com.jfoenix.controls.JFXListView;
 import com.jfoenix.controls.JFXTextField;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -31,15 +36,59 @@ public class PetsController implements Initializable {
 	@FXML
 	JFXTextField nameTextField;
 	@FXML
-	JFXComboBox typeComboBox;
+	JFXComboBox<PetType> typeComboBox;
 	@FXML
 	JFXButton addButton;
 	@FXML
-	JFXListView petsList;
+	JFXListView<Pet> petsList;
+	
+	
+	ObservableList<Pet> petsCollection;
 	
 	Showcase showcase;
+	
+	
+	List<PetType> types = new ArrayList<PetType>();
 
 	public void initialize(URL location, ResourceBundle resources) {
+		
+		
+		//INIT DATA
+		
+		types.add(new PetType("Cat", "🐱"));
+		types.add(new PetType("Dog", "🐶"));
+		types.add(new PetType("Horse", "🐴"));
+		types.add(new PetType("Unicorn", "🦄"));
+		types.add(new PetType("Hamster", "🐹"));
+		types.add(new PetType("Rabbit", "🐰"));
+		types.add(new PetType("Fox", "🦊"));
+
+		typeComboBox.getItems().addAll(types);
+		
+		
+		this.petsCollection = FXCollections.observableArrayList ();
+		petsCollection.add(new Pet("Lex", new PetType("Cat", "🐱")));
+		
+		
+		petsList.setItems(petsCollection);
+		
+		addButton.setOnAction(new EventHandler<ActionEvent>() {
+
+			public void handle(ActionEvent event) {
+				
+				PetType selectedType = typeComboBox.getValue();
+				String name = nameTextField.getText();
+				
+				if(selectedType != null && name != null && !name.equals("")) {
+					petsCollection.add(new Pet(name, selectedType));
+					nameTextField.setText("");
+
+				}
+				
+			}
+			
+		});
+
 		
 		showcase = new Showcase(rootPane);
 		

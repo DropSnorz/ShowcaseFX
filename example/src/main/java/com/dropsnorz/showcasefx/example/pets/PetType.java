@@ -1,5 +1,8 @@
 package com.dropsnorz.showcasefx.example.pets;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class PetType {
 	
 	protected String name;
@@ -21,6 +24,10 @@ public class PetType {
 	}
 	public void setIcon(String icon) {
 		this.icon = icon;
+	}
+	
+	public String toString() {
+		return icon + " " + name;
 	}
 	
 	
