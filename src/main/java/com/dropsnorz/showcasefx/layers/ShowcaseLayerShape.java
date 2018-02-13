@@ -1,4 +1,4 @@
-package com.dropsnorz.showcasefx;
+package com.dropsnorz.showcasefx.layers;
 
 
 import javafx.geometry.Bounds;
@@ -13,7 +13,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 
-public abstract class ShowcaseBackgroundShape implements ShowcaseBackground {
+public abstract class ShowcaseLayerShape implements ShowcaseLayer {
 	
 	public abstract Shape generate(double parentWidth, double parentHeight, Bounds nodeBounds);
 	
@@ -44,7 +44,7 @@ public abstract class ShowcaseBackgroundShape implements ShowcaseBackground {
 		node.setClip( Shape.subtract( inverse, clip ) );
 	}
 	
-	public static ShowcaseBackgroundShape CIRCLE_FLAT = new ShowcaseBackgroundShape() {
+	public static ShowcaseLayerShape CIRCLE_FLAT = new ShowcaseLayerShape() {
 
 		@Override
 		public Shape generate(double parentWidth, double parentHeight, Bounds nodeBounds) {
@@ -62,7 +62,7 @@ public abstract class ShowcaseBackgroundShape implements ShowcaseBackground {
 		
 	};
 	
-	public static ShowcaseBackgroundShape RECTANGLE_FLAT = new ShowcaseBackgroundShape() {
+	public static ShowcaseLayerShape RECTANGLE_FLAT = new ShowcaseLayerShape() {
 
 		@Override
 		public Shape generate(double parentWidth, double parentHeight, Bounds nodeBounds) {

@@ -6,8 +6,8 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 import com.dropsnorz.showcasefx.Showcase;
-import com.dropsnorz.showcasefx.ShowcaseBackgroundShape;
 import com.dropsnorz.showcasefx.ShowcaseStep;
+import com.dropsnorz.showcasefx.layers.ShowcaseLayerShape;
 import com.dropsnorz.showcasefx.layouts.AutoShowcaseLayout;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
@@ -92,7 +92,7 @@ public class PetsController implements Initializable {
 		
 		showcase = new Showcase(rootPane);
 		
-		showcase.setDefaultBackground(ShowcaseBackgroundShape.RECTANGLE_FLAT);
+		showcase.setDefaultLayer(ShowcaseLayerShape.RECTANGLE_FLAT);
 		
 		AutoShowcaseLayout bigLayout = new AutoShowcaseLayout();
 		bigLayout.setRowOffset(-1);

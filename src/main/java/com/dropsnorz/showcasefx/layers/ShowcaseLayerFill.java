@@ -1,4 +1,4 @@
-package com.dropsnorz.showcasefx;
+package com.dropsnorz.showcasefx.layers;
 
 import javafx.geometry.Bounds;
 import javafx.geometry.Insets;
@@ -11,7 +11,7 @@ import javafx.scene.paint.CycleMethod;
 import javafx.scene.paint.RadialGradient;
 import javafx.scene.paint.Stop;
 
-public abstract class ShowcaseBackgroundFill implements ShowcaseBackground {
+public abstract class ShowcaseLayerFill implements ShowcaseLayer {
 	
 	public abstract Background generate(double parentWidth, double parentHeight, Bounds nodeBounds);
 	
@@ -26,7 +26,7 @@ public abstract class ShowcaseBackgroundFill implements ShowcaseBackground {
 	}
 	
 		
-	public static ShowcaseBackgroundFill CIRCLE_GRADIENT = new ShowcaseBackgroundFill() {
+	public static ShowcaseLayerFill CIRCLE_GRADIENT = new ShowcaseLayerFill() {
 
 		@Override
 		public Background generate(double parentWidth, double parentHeight, Bounds nodeBounds) {
@@ -54,7 +54,7 @@ public abstract class ShowcaseBackgroundFill implements ShowcaseBackground {
 		
 	};
 
-	public static ShowcaseBackgroundFill CIRCLE_FLAT = new ShowcaseBackgroundFill() {
+	public static ShowcaseLayerFill CIRCLE_FLAT = new ShowcaseLayerFill() {
 
 		@Override
 		public Background generate(double parentWidth, double parentHeight, Bounds nodeBounds) {

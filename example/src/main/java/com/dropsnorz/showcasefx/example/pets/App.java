@@ -3,8 +3,8 @@ package com.dropsnorz.showcasefx.example.pets;
 import java.io.IOException;
 
 import com.dropsnorz.showcasefx.Showcase;
-import com.dropsnorz.showcasefx.ShowcaseBackgroundShape;
 import com.dropsnorz.showcasefx.events.ShowcaseEvent;
+import com.dropsnorz.showcasefx.layers.ShowcaseLayerShape;
 import com.dropsnorz.showcasefx.views.SimpleStepView;
 
 import javafx.application.Application;

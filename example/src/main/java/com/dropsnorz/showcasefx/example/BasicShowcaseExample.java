@@ -1,8 +1,8 @@
 package com.dropsnorz.showcasefx.example;
 
 import com.dropsnorz.showcasefx.Showcase;
-import com.dropsnorz.showcasefx.ShowcaseBackgroundShape;
 import com.dropsnorz.showcasefx.events.ShowcaseEvent;
+import com.dropsnorz.showcasefx.layers.ShowcaseLayerShape;
 import com.dropsnorz.showcasefx.views.SimpleStepView;
 
 import javafx.application.Application;
@@ -52,7 +52,7 @@ public class BasicShowcaseExample extends Application {
 		Showcase showcase = new Showcase(root);
 		
 		showcase.createStep(btn, new SimpleStepView("Hi !", "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat"));
-		showcase.createStep(btn2, new SimpleStepView("No Title !", "Hello World")).setLayer(ShowcaseBackgroundShape.RECTANGLE_FLAT);
+		showcase.createStep(btn2, new SimpleStepView("No Title !", "Hello World")).setLayer(ShowcaseLayerShape.RECTANGLE_FLAT);
 
 		showcase.setOnShowcaseStopped(new EventHandler<ShowcaseEvent>() {
 

@@ -1,5 +1,6 @@
 package com.dropsnorz.showcasefx;
 
+import com.dropsnorz.showcasefx.layers.ShowcaseLayer;
 import com.dropsnorz.showcasefx.layouts.ShowcaseLayout;
 
 import javafx.scene.Node;
@@ -18,8 +19,8 @@ public class StepBuilder {
 	}
 	
 	
-	public StepBuilder setLayer(ShowcaseBackground layer) {
-		this.step.setBackground(layer);
+	public StepBuilder setLayer(ShowcaseLayer layer) {
+		this.step.setLayer(layer);
 		return this;
 	}
 	

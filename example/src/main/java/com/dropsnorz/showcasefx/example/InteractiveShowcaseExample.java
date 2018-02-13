@@ -1,7 +1,7 @@
 package com.dropsnorz.showcasefx.example;
 
 import com.dropsnorz.showcasefx.Showcase;
-import com.dropsnorz.showcasefx.ShowcaseBackgroundShape;
+import com.dropsnorz.showcasefx.layers.ShowcaseLayerShape;
 
 import javafx.application.Application;
 import javafx.event.ActionEvent;
@@ -60,7 +60,7 @@ public class InteractiveShowcaseExample extends Application {
 		
 		Showcase showcase = new Showcase(centerPane);
 		showcase.createStep(btn, new Label("Hello World"));
-		showcase.createStep(btn2, new Label("Hello World")).setLayer(ShowcaseBackgroundShape.RECTANGLE_FLAT);
+		showcase.createStep(btn2, new Label("Hello World")).setLayer(ShowcaseLayerShape.RECTANGLE_FLAT);
 
 		showcase.start();
 	}

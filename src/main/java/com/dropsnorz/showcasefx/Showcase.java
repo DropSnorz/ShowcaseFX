@@ -3,6 +3,8 @@ package com.dropsnorz.showcasefx;
 import java.util.ArrayList;
 
 import com.dropsnorz.showcasefx.events.ShowcaseEvent;
+import com.dropsnorz.showcasefx.layers.ShowcaseLayer;
+import com.dropsnorz.showcasefx.layers.ShowcaseLayerShape;
 import com.dropsnorz.showcasefx.layouts.AutoShowcaseLayout;
 import com.dropsnorz.showcasefx.layouts.ShowcaseLayout;
 import com.dropsnorz.showcasefx.utils.BoundsUtils;
@@ -45,8 +47,8 @@ public class Showcase extends StackPane {
 
 	protected StackPane showcaseContainer;
 	protected Pane backgroundPane;
-	protected ShowcaseLayout layout;
-	protected ShowcaseBackground defaultBackground;
+	protected ShowcaseLayout defaultLayout;
+	protected ShowcaseLayer defaultLayer;
 	protected ArrayList<ShowcaseStep> steps;
 	protected int currentStep;
 	protected ChangeListener<Number> resizeListener;
@@ -80,7 +82,7 @@ public class Showcase extends StackPane {
 		this.setVisible(false);
 		this.getStyleClass().add(DEFAULT_STYLE_CLASS);
 
-		layout = new AutoShowcaseLayout();
+		defaultLayout = new AutoShowcaseLayout();
 
 		this.backgroundPane = new StackPane();
 
@@ -88,7 +90,7 @@ public class Showcase extends StackPane {
 
 		this.getChildren().add(backgroundPane);
 
-		this.defaultBackground = ShowcaseBackgroundShape.CIRCLE_FLAT;
+		this.defaultLayer = ShowcaseLayerShape.CIRCLE_FLAT;
 		this.currentStep = - 1;
 		this.steps = new ArrayList<ShowcaseStep>();
 
@@ -215,11 +217,11 @@ public class Showcase extends StackPane {
 
 			Node backgroundNode;
 
-			if(showcaseStep.getBackground() != null) {
-				backgroundNode = showcaseStep.getBackground().generateNode(this.getWidth(), this.getHeight(), targetBounds);
+			if(showcaseStep.getLayer() != null) {
+				backgroundNode = showcaseStep.getLayer().generateNode(this.getWidth(), this.getHeight(), targetBounds);
 			}
 			else {
-				backgroundNode = this.defaultBackground.generateNode(this.getWidth(), this.getHeight(), targetBounds);
+				backgroundNode = this.defaultLayer.generateNode(this.getWidth(), this.getHeight(), targetBounds);
 			}
 
 
@@ -234,7 +236,7 @@ public class Showcase extends StackPane {
 			}
 			else {
 
-				currentLayout = this.layout;
+				currentLayout = this.defaultLayout;
 			}
 
 			currentLayout.addContentNode(contentNode, targetBounds, this.getWidth(), this.getHeight());
@@ -273,14 +275,14 @@ public class Showcase extends StackPane {
 	}
 
 
-	public void setDefaultBackground(ShowcaseBackground background) {
-		this.defaultBackground = background;
+	public void setDefaultLayer(ShowcaseLayer layer) {
+		this.defaultLayer = layer;
 	}
-	public ShowcaseLayout getLayout() {
-		return layout;
+	public ShowcaseLayout getDefaultLayout() {
+		return defaultLayout;
 	}
-	public void setLayout(ShowcaseLayout layout) {
-		this.layout = layout;
+	public void setDefaultLayout(ShowcaseLayout layout) {
+		this.defaultLayout = layout;
 	}
 	public void setTraversableMask(boolean traversable) {
 
