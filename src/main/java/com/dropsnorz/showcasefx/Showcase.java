@@ -243,9 +243,20 @@ public class Showcase extends StackPane {
 
 			if(currentLayoutNode !=null) {
 				this.getChildren().remove(currentLayoutNode);
+				currentLayoutNode.setOnMouseClicked(null);
+			
 
 			}
 			this.currentLayoutNode = currentLayout.getNode();
+			
+			
+			currentLayoutNode.setOnMouseClicked(new EventHandler<MouseEvent>() {
+				@Override
+				public void handle(MouseEvent event) {
+					processBehaviour(onClickBehaviour);		
+				}
+				
+			});
 
 			this.getChildren().add(currentLayoutNode);
 		}

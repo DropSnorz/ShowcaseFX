@@ -30,6 +30,7 @@
                   </HBox>
                   <HBox alignment="CENTER_RIGHT" prefWidth="200.0">
                      <children>
+                        <JFXButton fx:id="randomizeButton" buttonType="RAISED" text="Randomize" />
                         <JFXButton fx:id="addButton" buttonType="RAISED" text="Add" />
                      </children>
                   </HBox>

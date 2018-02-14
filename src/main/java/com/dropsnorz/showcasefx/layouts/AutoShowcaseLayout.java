@@ -31,7 +31,6 @@ public class AutoShowcaseLayout extends ShowcaseLayout {
 				
 		this.mainPane.setMaxSize(Region.USE_COMPUTED_SIZE, Region.USE_COMPUTED_SIZE);
 		this.mainPane.setPadding(new Insets(10,10,10,10));
-		this.mainPane.setMouseTransparent(true);
 						
 	}
 

@@ -2,13 +2,16 @@ package com.dropsnorz.showcasefx.example.pets;
 
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Random;
 import java.util.ResourceBundle;
 
 import com.dropsnorz.showcasefx.Showcase;
 import com.dropsnorz.showcasefx.ShowcaseStep;
 import com.dropsnorz.showcasefx.layers.ShowcaseLayerShape;
 import com.dropsnorz.showcasefx.layouts.AutoShowcaseLayout;
+import com.dropsnorz.showcasefx.layouts.RelativeShowcaseLayout;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXDialog;
@@ -21,6 +24,8 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.StackPane;
@@ -40,6 +45,8 @@ public class PetsController implements Initializable {
 	@FXML
 	JFXButton addButton;
 	@FXML
+	JFXButton randomizeButton;
+	@FXML
 	JFXListView<Pet> petsList;
 	
 	
@@ -48,7 +55,9 @@ public class PetsController implements Initializable {
 	Showcase showcase;
 	
 	
-	List<PetType> types = new ArrayList<PetType>();
+	protected List<PetType> types = new ArrayList<PetType>();
+	protected List<String> randomNames = Arrays.asList("Augusta","Lanora","Nathanial","Harrison", "Mica","Chana","Mayola","Hope",
+    "Ava","Kandice","Roosevelt","Margareth","Delana","Paulene","Rosaria","Jack","Brooke","Lionel","Ann","Marisha");
 
 	public void initialize(URL location, ResourceBundle resources) {
 		
@@ -88,6 +97,13 @@ public class PetsController implements Initializable {
 			}
 			
 		});
+		
+		randomizeButton.setOnAction(new EventHandler<ActionEvent>() {
+
+			public void handle(ActionEvent event) {
+				randomizeInputs();
+			}
+		});
 
 		
 		showcase = new Showcase(rootPane);
@@ -116,6 +132,18 @@ public class PetsController implements Initializable {
 			
 		});
 
+	}
+	
+	public void randomizeInputs() {
+		
+		int maxTypeIndex = this.typeComboBox.getItems().size();
+		int maxNameIndex = this.randomNames.size();
+		
+		Random randomGenerator = new Random();
+		
+		this.typeComboBox.getSelectionModel().select(randomGenerator.nextInt(maxTypeIndex));
+		this.nameTextField.setText(randomNames.get(randomGenerator.nextInt(maxNameIndex)));
+		
 	}
 
 }
