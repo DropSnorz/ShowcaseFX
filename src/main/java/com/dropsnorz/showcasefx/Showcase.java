@@ -11,6 +11,7 @@ import com.dropsnorz.showcasefx.utils.BoundsUtils;
 
 import com.dropsnorz.showcasefx.views.SimpleStepView;
 
+import javafx.animation.Animation.Status;
 import javafx.animation.FadeTransition;
 import javafx.animation.Timeline;
 import javafx.animation.Transition;
@@ -51,13 +52,16 @@ public class Showcase extends StackPane {
 	protected ShowcaseLayer defaultLayer;
 	protected ArrayList<ShowcaseStep> steps;
 	protected int currentStep;
+	
 	protected ChangeListener<Number> resizeListener;
+	protected EventHandler<MouseEvent> clickHandler;
 
 	protected Node currentLayoutNode;
 
-	protected int transitionDelay = 500;
-
 	protected ShowcaseBehaviour onClickBehaviour =  ShowcaseBehaviour.NEXT;
+	
+	private FadeTransition fadeIn;
+	private FadeTransition fadeOut;
 
 
 	private static final String DEFAULT_STYLE_CLASS = "fx-showcase";
@@ -99,14 +103,36 @@ public class Showcase extends StackPane {
 				updateShowcaseLayer();
 			}
 		};
+		
+		this.clickHandler = new EventHandler<MouseEvent>() {
 
-		this.backgroundPane.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
-
+			@Override
 			public void handle(MouseEvent e) {
-				processBehaviour(onClickBehaviour);
+				if(fadeIn.getStatus() == Status.RUNNING || fadeOut.getStatus() == Status.RUNNING) {
+					fadeIn.jumpTo("end");
+					fadeOut.jumpTo("end");
 
+				}
+				else {
+					processBehaviour(onClickBehaviour);
+
+				}
 			}
-		});
+			
+		};
+
+		this.backgroundPane.addEventHandler(MouseEvent.MOUSE_CLICKED, clickHandler);
+		
+		
+		this.fadeIn = new FadeTransition(Duration.millis(500), this);
+		fadeIn.setFromValue(0);
+		fadeIn.setToValue(1);
+		fadeIn.setCycleCount(1);
+		this.fadeOut = new FadeTransition(Duration.millis(500), this);
+		fadeOut.setFromValue(1);
+		fadeOut.setToValue(0);
+		fadeOut.setCycleCount(1);
+
 
 		//this.contentContainer.setPickOnBounds(false);
 		this.setPickOnBounds(false);
@@ -123,7 +149,6 @@ public class Showcase extends StackPane {
 		if(this.currentStep < this.steps.size()) {
 
 			updateShowcaseLayer();
-			Transition fadeIn = this.getFadeInTransition();
 			fadeIn.setOnFinished(new EventHandler<ActionEvent>() {
 
 				@Override
@@ -154,8 +179,8 @@ public class Showcase extends StackPane {
 	}
 
 	public void stop() {
-
-		Transition fadeOut = this.getFadeOutTransition();
+		
+		fadeIn.stop();
 		fadeOut.setOnFinished(new EventHandler<ActionEvent>() {
 
 			@Override
@@ -173,8 +198,7 @@ public class Showcase extends StackPane {
 	}
 
 	private void switchStep() {
-
-		Transition fadeOut = this.getFadeOutTransition();
+		
 		fadeOut.setOnFinished(new EventHandler<ActionEvent>() {
 
 			@Override
@@ -190,7 +214,6 @@ public class Showcase extends StackPane {
 	private void showStep() {		
 
 		updateShowcaseLayer();
-		Transition fadeIn = this.getFadeInTransition();
 		fadeIn.setOnFinished(new EventHandler<ActionEvent>() {
 
 			@Override
@@ -200,7 +223,6 @@ public class Showcase extends StackPane {
 			}
 
 		});
-
 		fadeIn.play();
 	}
 
@@ -250,13 +272,7 @@ public class Showcase extends StackPane {
 			this.currentLayoutNode = currentLayout.getNode();
 			
 			
-			currentLayoutNode.setOnMouseClicked(new EventHandler<MouseEvent>() {
-				@Override
-				public void handle(MouseEvent event) {
-					processBehaviour(onClickBehaviour);		
-				}
-				
-			});
+			currentLayoutNode.setOnMouseClicked(clickHandler);
 
 			this.getChildren().add(currentLayoutNode);
 		}
@@ -322,25 +338,6 @@ public class Showcase extends StackPane {
 	 * 
 	 */
 
-
-	private Transition getFadeInTransition() {
-		FadeTransition ft = new FadeTransition(Duration.millis(transitionDelay), this);
-		ft.setFromValue(0);
-		ft.setToValue(1);
-		ft.setCycleCount(1);
-
-		return ft;
-	}
-
-	private Transition getFadeOutTransition() {
-		FadeTransition ft = new FadeTransition(Duration.millis(transitionDelay), this);
-		ft.setFromValue(1);
-		ft.setToValue(0);
-		ft.setCycleCount(1);
-
-		return ft;
-	}
-
 	/**
 	 * Set the Showcase transition animation delay in miliseconds.
 	 * @param delay
@@ -348,8 +345,11 @@ public class Showcase extends StackPane {
 	 * The delay value is applied to fade-in and fade-out animations.
 	 */
 	public void setTransitionDelay(int delay) {
-		this.transitionDelay = delay;
+		this.fadeIn.setDelay(Duration.millis(delay));
+		this.fadeOut.setDelay(Duration.millis(delay));
+
 	}
+	
 
 
 	/**
