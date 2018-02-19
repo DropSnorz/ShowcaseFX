@@ -47,7 +47,7 @@ import javafx.util.Duration;
 public class Showcase extends StackPane {
 
 	protected StackPane showcaseContainer;
-	protected Pane backgroundPane;
+	protected Pane layerPane;
 	protected ShowcaseLayout defaultLayout;
 	protected ShowcaseLayer defaultLayer;
 	protected ArrayList<ShowcaseStep> steps;
@@ -88,11 +88,11 @@ public class Showcase extends StackPane {
 
 		defaultLayout = new AutoShowcaseLayout();
 
-		this.backgroundPane = new StackPane();
+		this.layerPane = new StackPane();
 
 		this.setTraversableMask(false);
 
-		this.getChildren().add(backgroundPane);
+		this.getChildren().add(layerPane);
 
 		this.defaultLayer = ShowcaseLayerShape.CIRCLE_FLAT;
 		this.currentStep = - 1;
@@ -121,7 +121,7 @@ public class Showcase extends StackPane {
 			
 		};
 
-		this.backgroundPane.addEventHandler(MouseEvent.MOUSE_CLICKED, clickHandler);
+		this.layerPane.addEventHandler(MouseEvent.MOUSE_CLICKED, clickHandler);
 		
 		
 		this.fadeIn = new FadeTransition(Duration.millis(500), this);
@@ -159,41 +159,71 @@ public class Showcase extends StackPane {
 
 			});
 
-			fadeIn.play();
+			fadeIn.playFromStart();
 		}
 
 	}
 
 	public void next() {
+		
+		if(isStarted()) {
+			
+			this.currentStep = this.currentStep +  1;
 
-		this.currentStep = this.currentStep +  1;
-
-		if(this.currentStep < this.steps.size()) {
-			switchStep();
+			if(this.currentStep < this.steps.size()) {
+				switchStep();
+			}
+			else {
+				stop();
+			}
+			
 		}
 		else {
-			stop();
+			throw new IllegalStateException("Showcase component must be started");
+
 		}
+
 		
+		
+	}
+	
+	public void jumpTo(int stepIndex) {
+		
+		if(isStarted() && stepIndex < this.steps.size() && stepIndex >= 0) {
+			this.currentStep = stepIndex;
+			switchStep();
+		}
+		else if(!isStarted()) {
+			throw new IllegalStateException("Showcase component must be started");
+		}
+		else {
+			throw new IndexOutOfBoundsException("Index " + stepIndex + " is out of bounds!");
+		}
 		
 	}
 
 	public void stop() {
 		
-		fadeIn.stop();
-		fadeOut.setOnFinished(new EventHandler<ActionEvent>() {
+		if(isStarted()) {
+			fadeIn.stop();
+			fadeOut.setOnFinished(new EventHandler<ActionEvent>() {
 
-			@Override
-			public void handle(ActionEvent event) {
-				setVisible(false);
-				onShowcaseStoppedProperty.get().handle(new ShowcaseEvent(ShowcaseEvent.STOPPED));
-				widthProperty().removeListener(resizeListener);
-				heightProperty().removeListener(resizeListener);
-				currentStep = - 1;
-			}
+				@Override
+				public void handle(ActionEvent event) {
+					setVisible(false);
+					onShowcaseStoppedProperty.get().handle(new ShowcaseEvent(ShowcaseEvent.STOPPED));
+					widthProperty().removeListener(resizeListener);
+					heightProperty().removeListener(resizeListener);
+					currentStep = - 1;
+				}
 
-		});
-		fadeOut.play();
+			});
+			fadeOut.playFromStart();
+		}
+		else {
+			throw new IllegalStateException("Showcase component must be started");
+		}
+		
 
 	}
 
@@ -207,7 +237,7 @@ public class Showcase extends StackPane {
 			}
 
 		});
-		fadeOut.play();
+		fadeOut.playFromStart();
 
 	}
 
@@ -223,7 +253,7 @@ public class Showcase extends StackPane {
 			}
 
 		});
-		fadeIn.play();
+		fadeIn.playFromStart();
 	}
 
 	private void updateShowcaseLayer() {
@@ -237,18 +267,18 @@ public class Showcase extends StackPane {
 
 			Bounds targetBounds = showcaseContainer.sceneToLocal(target.localToScene(target.getBoundsInLocal()));
 
-			Node backgroundNode;
+			Node layerNode;
 
 			if(showcaseStep.getLayer() != null) {
-				backgroundNode = showcaseStep.getLayer().generateNode(this.getWidth(), this.getHeight(), targetBounds);
+				layerNode = showcaseStep.getLayer().generateNode(this.getWidth(), this.getHeight(), targetBounds);
 			}
 			else {
-				backgroundNode = this.defaultLayer.generateNode(this.getWidth(), this.getHeight(), targetBounds);
+				layerNode = this.defaultLayer.generateNode(this.getWidth(), this.getHeight(), targetBounds);
 			}
 
 
-			this.backgroundPane.getChildren().clear();
-			this.backgroundPane.getChildren().add(backgroundNode);
+			this.layerPane.getChildren().clear();
+			this.layerPane.getChildren().add(layerNode);
 
 			Node contentNode = showcaseStep.getContent();
 
@@ -313,7 +343,7 @@ public class Showcase extends StackPane {
 	}
 	public void setTraversableMask(boolean traversable) {
 
-		this.backgroundPane.setMouseTransparent(traversable);
+		this.layerPane.setMouseTransparent(traversable);
 	}
 
 
@@ -330,6 +360,23 @@ public class Showcase extends StackPane {
 
 	public StepBuilder createStep(Node target, String title, String content) {
 		return createStep(target, new SimpleStepView(title, content));
+	}
+	
+	public int getCurrentPosition() {
+		return this.currentStep;
+	}
+	
+	public ShowcaseStep getCurrentStep() {
+		
+		if(this.currentStep > 0 && this.currentStep < this.steps.size()) {
+			return this.steps.get((this.currentStep));
+		}
+		
+		return null;
+		
+	}
+	public boolean isStarted() {
+		return this.currentStep >= 0;
 	}
 
 	/**
