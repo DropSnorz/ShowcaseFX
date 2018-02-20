@@ -7,41 +7,21 @@ import com.dropsnorz.showcasefx.layers.ShowcaseLayer;
 import com.dropsnorz.showcasefx.layers.ShowcaseLayerShape;
 import com.dropsnorz.showcasefx.layouts.AutoShowcaseLayout;
 import com.dropsnorz.showcasefx.layouts.ShowcaseLayout;
-import com.dropsnorz.showcasefx.utils.BoundsUtils;
-
 import com.dropsnorz.showcasefx.views.SimpleStepView;
 
 import javafx.animation.Animation.Status;
 import javafx.animation.FadeTransition;
-import javafx.animation.Timeline;
-import javafx.animation.Transition;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
-import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.geometry.Bounds;
-import javafx.geometry.HPos;
-import javafx.geometry.Insets;
-import javafx.geometry.Point2D;
-import javafx.geometry.VPos;
 import javafx.scene.Node;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundFill;
-import javafx.scene.layout.ColumnConstraints;
-import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
-import javafx.scene.layout.Priority;
-import javafx.scene.layout.Region;
-import javafx.scene.layout.RowConstraints;
 import javafx.scene.layout.StackPane;
-import javafx.scene.paint.Color;
-import javafx.scene.paint.CycleMethod;
-import javafx.scene.paint.RadialGradient;
-import javafx.scene.paint.Stop;
 import javafx.util.Duration;
 
 public class Showcase extends StackPane {
@@ -52,7 +32,7 @@ public class Showcase extends StackPane {
 	protected ShowcaseLayer defaultLayer;
 	protected ArrayList<ShowcaseStep> steps;
 	protected int currentStep;
-	
+
 	protected ChangeListener<Number> resizeListener;
 	protected ChangeListener<Bounds> boundsListener;
 	protected EventHandler<MouseEvent> clickHandler;
@@ -63,8 +43,8 @@ public class Showcase extends StackPane {
 	private ShowcaseLayout mountedLayout;
 
 	protected ShowcaseBehaviour onClickBehaviour =  ShowcaseBehaviour.NEXT;
-	protected boolean updateOnTargetBoundsChanges = true;
-	
+	protected boolean updateOnTargetBoundsChange = true;
+
 	private FadeTransition fadeIn;
 	private FadeTransition fadeOut;
 
@@ -78,11 +58,10 @@ public class Showcase extends StackPane {
 	}
 
 	public Showcase() {
-
 		initialize();		
 	}
-	public Showcase(StackPane showCaseContainer) {
 
+	public Showcase(StackPane showCaseContainer) {
 		initialize();
 		this.setShowcaseContainer(showCaseContainer);
 	}
@@ -100,26 +79,22 @@ public class Showcase extends StackPane {
 		this.defaultLayer = ShowcaseLayerShape.CIRCLE_FLAT;
 		this.currentStep = - 1;
 		this.steps = new ArrayList<ShowcaseStep>();
-		
-		
+
 		this.resizeListener = new ChangeListener<Number>() {
 			public void changed(ObservableValue<? extends Number> observableValue, Number oldSceneWidth, Number newSceneWidth) {
 				System.out.println("RESIZE: " + oldSceneWidth + " => "+ newSceneWidth );
 				updateShowcaseLayer();
-				
 			}
 		};
-		
+
 		this.boundsListener = new ChangeListener<Bounds>() {
-			
+
 			public void changed(ObservableValue<? extends Bounds> observableValue, Bounds oldBounds, Bounds newBounds) {
 				updateShowcaseLayer();
-				
 			}
-
 		};
-		
-		
+
+
 		this.clickHandler = new EventHandler<MouseEvent>() {
 
 			@Override
@@ -128,18 +103,14 @@ public class Showcase extends StackPane {
 					fadeIn.jumpTo("end");
 					fadeOut.jumpTo("end");
 
-				}
-				else {
+				} else {
 					processBehaviour(onClickBehaviour);
-
 				}
 			}
-			
 		};
 
 		this.layerPane.addEventHandler(MouseEvent.MOUSE_CLICKED, clickHandler);
-		
-		
+
 		this.fadeIn = new FadeTransition(Duration.millis(500), this);
 		fadeIn.setFromValue(0);
 		fadeIn.setToValue(1);
@@ -149,17 +120,14 @@ public class Showcase extends StackPane {
 		fadeOut.setToValue(0);
 		fadeOut.setCycleCount(1);
 
-
-		//this.contentContainer.setPickOnBounds(false);
 		this.setPickOnBounds(false);
-
 	}
 
 	public void start() {
 		this.setVisible(true);
 		this.widthProperty().addListener(resizeListener);
 		this.heightProperty().addListener(resizeListener);
-		
+
 		this.currentStep = 0;
 
 		if(this.currentStep < this.steps.size()) {
@@ -173,39 +141,31 @@ public class Showcase extends StackPane {
 					onShowcaseStartedProperty.get().handle(new ShowcaseEvent(ShowcaseEvent.STARTED));
 					onShowcaseStepDisplayProperty.get().handle(new ShowcaseEvent(ShowcaseEvent.STEP_DISPLAY));
 				}
-
 			});
 
 			fadeIn.playFromStart();
 		}
-
 	}
+
 
 	public void next() {
-		
-		if(isStarted()) {
-			
-			this.currentStep = this.currentStep +  1;
 
+		if(isStarted()) {
+			this.currentStep = this.currentStep +  1;
 			if(this.currentStep < this.steps.size()) {
 				switchStep();
-			}
-			else {
+			} else {
 				stop();
 			}
-			
-		}
-		else {
+
+		} else {
 			throw new IllegalStateException("Showcase component must be started");
-
 		}
-
-		
-		
 	}
-	
+
+
 	public void jumpTo(int stepIndex) {
-		
+
 		if(isStarted() && stepIndex < this.steps.size() && stepIndex >= 0) {
 			this.currentStep = stepIndex;
 			switchStep();
@@ -216,11 +176,11 @@ public class Showcase extends StackPane {
 		else {
 			throw new IndexOutOfBoundsException("Index " + stepIndex + " is out of bounds!");
 		}
-		
 	}
 
+
 	public void stop() {
-		
+
 		if(isStarted()) {
 			fadeIn.stop();
 			fadeOut.setOnFinished(new EventHandler<ActionEvent>() {
@@ -234,29 +194,24 @@ public class Showcase extends StackPane {
 					heightProperty().removeListener(resizeListener);
 					currentStep = - 1;
 				}
-
 			});
 			fadeOut.playFromStart();
 		}
 		else {
 			throw new IllegalStateException("Showcase component must be started");
 		}
-		
-
 	}
 
 	private void switchStep() {
-		
+
 		fadeOut.setOnFinished(new EventHandler<ActionEvent>() {
 
 			@Override
 			public void handle(ActionEvent event) {
 				showStep();
 			}
-
 		});
 		fadeOut.playFromStart();
-
 	}
 
 	private void showStep() {		
@@ -270,96 +225,74 @@ public class Showcase extends StackPane {
 				onShowcaseStepDisplayProperty.get().handle(new ShowcaseEvent(ShowcaseEvent.STEP_DISPLAY));
 
 			}
-
 		});
+
 		fadeIn.playFromStart();
 	}
-	
+
 	private void mountStep() {
-		
+
 		unmountStep();
-		
 		ShowcaseStep showcaseStep = this.steps.get(this.currentStep);
 		mountedTarget = showcaseStep.getTargetNode();
-		
-		
+
 		if(showcaseStep.getLayer() != null) {
 			mountedLayer = showcaseStep.getLayer();
-		}
-		else {
+		} else {
 			mountedLayer = this.defaultLayer;
 		}
 
 		if(showcaseStep.getLayout() != null) {
 			mountedLayout = showcaseStep.getLayout();
-		}
-		else {
-
+		} else {
 			mountedLayout = this.defaultLayout;
 		}
-		
-		mountedTarget.boundsInParentProperty().addListener(boundsListener);
-		
-		
+
+		if(updateOnTargetBoundsChange) {
+			mountedTarget.boundsInParentProperty().addListener(boundsListener);
+		}
 	}
-	
+
 	private void unmountStep() {
-		
+
 		if(mountedTarget != null) {
 			mountedTarget.boundsInParentProperty().removeListener(boundsListener);
-
 		}
-		
 	}
 
 	private synchronized void updateShowcaseLayer() {
 
 		if(currentStep < this.steps.size())
 		{
-
 			ShowcaseStep showcaseStep = this.steps.get(this.currentStep);
 
-			//Node target = showcaseStep.getTargetNode();
-			
 			Bounds targetBounds = showcaseContainer.sceneToLocal(mountedTarget.localToScene(mountedTarget.getBoundsInLocal()));
 
 			Node layerNode = this.mountedLayer.generateNode(this.getWidth(), this.getHeight(), targetBounds);
-		
-
 			this.layerPane.getChildren().clear();
 			this.layerPane.getChildren().add(layerNode);
-
 			Node contentNode = showcaseStep.getContent();
-
 
 			mountedLayout.addContentNode(contentNode, targetBounds, this.getWidth(), this.getHeight());
 
 			if(currentLayoutNode !=null) {
 				this.getChildren().remove(currentLayoutNode);
 				currentLayoutNode.setOnMouseClicked(null);
-			
-
 			}
-			this.currentLayoutNode = mountedLayout.getNode();
-			
-			
-			currentLayoutNode.setOnMouseClicked(clickHandler);
 
+			this.currentLayoutNode = mountedLayout.getNode();
+			currentLayoutNode.setOnMouseClicked(clickHandler);
 			this.getChildren().add(currentLayoutNode);
 		}
-
-
 	}
 
 	private void processBehaviour(ShowcaseBehaviour behaviour) {
 		switch(behaviour) {
-
 		case NEXT: next(); break;
 		case CLOSE: stop(); break;
 		default: break;
 		}
 	}
-
 
 	public void setShowcaseContainer(StackPane showcaseContainer) {
 		if (showcaseContainer != null) {
@@ -386,38 +319,33 @@ public class Showcase extends StackPane {
 	public void addStep(ShowcaseStep step) {
 		steps.add(step);
 	}
-
 	public StepBuilder createStep(Node targetNode, Node content) {
 		StepBuilder builder = new StepBuilder(targetNode, content);
 		steps.add(builder.getStep());
-
 		return builder;
 	}
-
 	public StepBuilder createStep(Node target, String title, String content) {
 		return createStep(target, new SimpleStepView(title, content));
 	}
-	
 	public int getCurrentPosition() {
 		return this.currentStep;
 	}
-	
 	public ShowcaseStep getCurrentStep() {
-		
 		if(this.currentStep > 0 && this.currentStep < this.steps.size()) {
 			return this.steps.get((this.currentStep));
 		}
-		
 		return null;
-		
 	}
 	public boolean isStarted() {
 		return this.currentStep >= 0;
 	}
-	
-	
-	
-	
+	public boolean isUpdateOnTargetBoundsChange() {
+		return updateOnTargetBoundsChange;
+	}
+	public void setUpdateOnTargetBoundsChange(boolean updateOnTargetBoundsChange) {
+		this.updateOnTargetBoundsChange = updateOnTargetBoundsChange;
+	}
+
 
 	/**
 	 * 
@@ -434,9 +362,7 @@ public class Showcase extends StackPane {
 	public void setTransitionDelay(int delay) {
 		this.fadeIn.setDelay(Duration.millis(delay));
 		this.fadeOut.setDelay(Duration.millis(delay));
-
 	}
-	
 
 
 	/**
@@ -444,7 +370,6 @@ public class Showcase extends StackPane {
 	 * EVENTS
 	 * 
 	 */
-
 
 	private ObjectProperty<EventHandler<? super ShowcaseEvent>> onShowcaseStartedProperty = new SimpleObjectProperty<>((started) -> {
 	});
@@ -492,6 +417,5 @@ public class Showcase extends StackPane {
 	public EventHandler<? super ShowcaseEvent> getOnShowcaseStepDisplay() {
 		return onShowcaseStepDisplayProperty.get();
 	}
-
 
 }
