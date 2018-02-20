@@ -54,11 +54,16 @@ public class Showcase extends StackPane {
 	protected int currentStep;
 	
 	protected ChangeListener<Number> resizeListener;
+	protected ChangeListener<Bounds> boundsListener;
 	protected EventHandler<MouseEvent> clickHandler;
 
 	protected Node currentLayoutNode;
+	private Node mountedTarget;
+	private ShowcaseLayer mountedLayer;
+	private ShowcaseLayout mountedLayout;
 
 	protected ShowcaseBehaviour onClickBehaviour =  ShowcaseBehaviour.NEXT;
+	protected boolean updateOnTargetBoundsChanges = true;
 	
 	private FadeTransition fadeIn;
 	private FadeTransition fadeOut;
@@ -90,19 +95,30 @@ public class Showcase extends StackPane {
 
 		this.layerPane = new StackPane();
 
-		this.setTraversableMask(false);
-
 		this.getChildren().add(layerPane);
 
 		this.defaultLayer = ShowcaseLayerShape.CIRCLE_FLAT;
 		this.currentStep = - 1;
 		this.steps = new ArrayList<ShowcaseStep>();
-
+		
+		
 		this.resizeListener = new ChangeListener<Number>() {
 			public void changed(ObservableValue<? extends Number> observableValue, Number oldSceneWidth, Number newSceneWidth) {
+				System.out.println("RESIZE: " + oldSceneWidth + " => "+ newSceneWidth );
 				updateShowcaseLayer();
+				
 			}
 		};
+		
+		this.boundsListener = new ChangeListener<Bounds>() {
+			
+			public void changed(ObservableValue<? extends Bounds> observableValue, Bounds oldBounds, Bounds newBounds) {
+				updateShowcaseLayer();
+				
+			}
+
+		};
+		
 		
 		this.clickHandler = new EventHandler<MouseEvent>() {
 
@@ -143,11 +159,12 @@ public class Showcase extends StackPane {
 		this.setVisible(true);
 		this.widthProperty().addListener(resizeListener);
 		this.heightProperty().addListener(resizeListener);
-
+		
 		this.currentStep = 0;
 
 		if(this.currentStep < this.steps.size()) {
 
+			mountStep();
 			updateShowcaseLayer();
 			fadeIn.setOnFinished(new EventHandler<ActionEvent>() {
 
@@ -210,6 +227,7 @@ public class Showcase extends StackPane {
 
 				@Override
 				public void handle(ActionEvent event) {
+					unmountStep();
 					setVisible(false);
 					onShowcaseStoppedProperty.get().handle(new ShowcaseEvent(ShowcaseEvent.STOPPED));
 					widthProperty().removeListener(resizeListener);
@@ -243,6 +261,7 @@ public class Showcase extends StackPane {
 
 	private void showStep() {		
 
+		mountStep();
 		updateShowcaseLayer();
 		fadeIn.setOnFinished(new EventHandler<ActionEvent>() {
 
@@ -255,43 +274,65 @@ public class Showcase extends StackPane {
 		});
 		fadeIn.playFromStart();
 	}
+	
+	private void mountStep() {
+		
+		unmountStep();
+		
+		ShowcaseStep showcaseStep = this.steps.get(this.currentStep);
+		mountedTarget = showcaseStep.getTargetNode();
+		
+		
+		if(showcaseStep.getLayer() != null) {
+			mountedLayer = showcaseStep.getLayer();
+		}
+		else {
+			mountedLayer = this.defaultLayer;
+		}
 
-	private void updateShowcaseLayer() {
+		if(showcaseStep.getLayout() != null) {
+			mountedLayout = showcaseStep.getLayout();
+		}
+		else {
+
+			mountedLayout = this.defaultLayout;
+		}
+		
+		mountedTarget.boundsInParentProperty().addListener(boundsListener);
+		
+		
+	}
+	
+	private void unmountStep() {
+		
+		if(mountedTarget != null) {
+			mountedTarget.boundsInParentProperty().removeListener(boundsListener);
+
+		}
+		
+	}
+
+	private synchronized void updateShowcaseLayer() {
 
 		if(currentStep < this.steps.size())
 		{
 
 			ShowcaseStep showcaseStep = this.steps.get(this.currentStep);
 
-			Node target = showcaseStep.getTargetNode();
+			//Node target = showcaseStep.getTargetNode();
+			
+			Bounds targetBounds = showcaseContainer.sceneToLocal(mountedTarget.localToScene(mountedTarget.getBoundsInLocal()));
 
-			Bounds targetBounds = showcaseContainer.sceneToLocal(target.localToScene(target.getBoundsInLocal()));
-
-			Node layerNode;
-
-			if(showcaseStep.getLayer() != null) {
-				layerNode = showcaseStep.getLayer().generateNode(this.getWidth(), this.getHeight(), targetBounds);
-			}
-			else {
-				layerNode = this.defaultLayer.generateNode(this.getWidth(), this.getHeight(), targetBounds);
-			}
-
+			Node layerNode = this.mountedLayer.generateNode(this.getWidth(), this.getHeight(), targetBounds);
+		
 
 			this.layerPane.getChildren().clear();
 			this.layerPane.getChildren().add(layerNode);
 
 			Node contentNode = showcaseStep.getContent();
 
-			ShowcaseLayout currentLayout;
-			if(showcaseStep.getLayout() != null) {
-				currentLayout = showcaseStep.getLayout();
-			}
-			else {
 
-				currentLayout = this.defaultLayout;
-			}
-
-			currentLayout.addContentNode(contentNode, targetBounds, this.getWidth(), this.getHeight());
+			mountedLayout.addContentNode(contentNode, targetBounds, this.getWidth(), this.getHeight());
 
 			if(currentLayoutNode !=null) {
 				this.getChildren().remove(currentLayoutNode);
@@ -299,7 +340,7 @@ public class Showcase extends StackPane {
 			
 
 			}
-			this.currentLayoutNode = currentLayout.getNode();
+			this.currentLayoutNode = mountedLayout.getNode();
 			
 			
 			currentLayoutNode.setOnMouseClicked(clickHandler);
@@ -341,11 +382,6 @@ public class Showcase extends StackPane {
 	public void setDefaultLayout(ShowcaseLayout layout) {
 		this.defaultLayout = layout;
 	}
-	public void setTraversableMask(boolean traversable) {
-
-		this.layerPane.setMouseTransparent(traversable);
-	}
-
 
 	public void addStep(ShowcaseStep step) {
 		steps.add(step);
@@ -378,6 +414,10 @@ public class Showcase extends StackPane {
 	public boolean isStarted() {
 		return this.currentStep >= 0;
 	}
+	
+	
+	
+	
 
 	/**
 	 * 
