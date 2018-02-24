@@ -1,6 +1,7 @@
 package com.dropsnorz.showcasefx;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 import com.dropsnorz.showcasefx.events.ShowcaseEvent;
 import com.dropsnorz.showcasefx.layers.ShowcaseLayer;
@@ -33,7 +34,6 @@ public class Showcase extends StackPane {
 	protected ArrayList<ShowcaseStep> steps;
 	protected int currentStep;
 
-	protected ChangeListener<Number> resizeListener;
 	protected ChangeListener<Bounds> boundsListener;
 	protected EventHandler<MouseEvent> clickHandler;
 
@@ -43,7 +43,7 @@ public class Showcase extends StackPane {
 	private ShowcaseLayout mountedLayout;
 
 	protected ShowcaseBehaviour onClickBehaviour =  ShowcaseBehaviour.NEXT;
-	protected boolean updateOnTargetBoundsChange = true;
+	protected boolean updateOnTargetBoundsChange = false;
 
 	private FadeTransition fadeIn;
 	private FadeTransition fadeOut;
@@ -80,15 +80,7 @@ public class Showcase extends StackPane {
 		this.currentStep = - 1;
 		this.steps = new ArrayList<ShowcaseStep>();
 
-		this.resizeListener = new ChangeListener<Number>() {
-			public void changed(ObservableValue<? extends Number> observableValue, Number oldSceneWidth, Number newSceneWidth) {
-				System.out.println("RESIZE: " + oldSceneWidth + " => "+ newSceneWidth );
-				updateShowcaseLayer();
-			}
-		};
-
 		this.boundsListener = new ChangeListener<Bounds>() {
-
 			public void changed(ObservableValue<? extends Bounds> observableValue, Bounds oldBounds, Bounds newBounds) {
 				updateShowcaseLayer();
 			}
@@ -125,8 +117,8 @@ public class Showcase extends StackPane {
 
 	public void start() {
 		this.setVisible(true);
-		this.widthProperty().addListener(resizeListener);
-		this.heightProperty().addListener(resizeListener);
+	
+		this.layoutBoundsProperty().addListener(boundsListener);
 
 		this.currentStep = 0;
 
@@ -190,8 +182,8 @@ public class Showcase extends StackPane {
 					unmountStep();
 					setVisible(false);
 					onShowcaseStoppedProperty.get().handle(new ShowcaseEvent(ShowcaseEvent.STOPPED));
-					widthProperty().removeListener(resizeListener);
-					heightProperty().removeListener(resizeListener);
+					layoutBoundsProperty().removeListener(boundsListener);
+
 					currentStep = - 1;
 				}
 			});
