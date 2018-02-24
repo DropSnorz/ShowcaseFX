@@ -268,9 +268,13 @@ public class Showcase extends StackPane {
 
 			Bounds targetBounds = showcaseContainer.sceneToLocal(mountedTarget.localToScene(mountedTarget.getBoundsInLocal()));
 
-			Node layerNode = this.mountedLayer.generateNode(this.getWidth(), this.getHeight(), targetBounds);
+			
 			this.layerPane.getChildren().clear();
-			this.layerPane.getChildren().add(layerNode);
+			if(mountedLayer != null) {
+				Node layerNode = this.mountedLayer.generateNode(this.getWidth(), this.getHeight(), targetBounds);
+				this.layerPane.getChildren().add(layerNode);
+			}
+			
 			Node contentNode = showcaseStep.getContent();
 
 			if(currentLayoutNode !=null) {
