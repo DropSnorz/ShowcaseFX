@@ -273,16 +273,19 @@ public class Showcase extends StackPane {
 			this.layerPane.getChildren().add(layerNode);
 			Node contentNode = showcaseStep.getContent();
 
-			mountedLayout.addContentNode(contentNode, targetBounds, this.getWidth(), this.getHeight());
-
 			if(currentLayoutNode !=null) {
 				this.getChildren().remove(currentLayoutNode);
 				currentLayoutNode.setOnMouseClicked(null);
 			}
 
 			this.currentLayoutNode = mountedLayout.getNode();
-			currentLayoutNode.setOnMouseClicked(clickHandler);
 			this.getChildren().add(currentLayoutNode);
+
+			currentLayoutNode.setOnMouseClicked(clickHandler);
+						
+			mountedLayout.addContentNode(contentNode, targetBounds, this.getWidth(), this.getHeight());
+
+			
 		}
 	}
 

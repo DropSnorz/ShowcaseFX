@@ -25,11 +25,11 @@ public class SimpleStepView extends VBox {
 		this.setMaxSize(Region.USE_COMPUTED_SIZE, Region.USE_COMPUTED_SIZE);
 				
 		titleLabel = new Label(title);
-		titleLabel.setTextFill(Color.WHITE);
+		titleLabel.setTextFill(Color.BLACK);
 		titleLabel.setFont(Font.font("Verdana", FontWeight.BOLD, 21));
 
 		contentLabel = new Label(content);
-		contentLabel.setTextFill(Color.WHITE);
+		contentLabel.setTextFill(Color.BLACK);
 		contentLabel.setWrapText(true);
 
 				

@@ -12,6 +12,7 @@ import com.dropsnorz.showcasefx.ShowcaseStep;
 import com.dropsnorz.showcasefx.layers.ShowcaseLayerShape;
 import com.dropsnorz.showcasefx.layouts.AutoShowcaseLayout;
 import com.dropsnorz.showcasefx.layouts.RelativeShowcaseLayout;
+import com.dropsnorz.showcasefx.layouts.TooltipShowcaseLayout;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXDialog;
@@ -109,6 +110,7 @@ public class PetsController implements Initializable {
 		showcase = new Showcase(rootPane);
 		
 		showcase.setDefaultLayer(ShowcaseLayerShape.RECTANGLE_FLAT);
+		showcase.setDefaultLayout(new TooltipShowcaseLayout());
 		
 		AutoShowcaseLayout bigLayout = new AutoShowcaseLayout();
 		bigLayout.setRowOffset(-1);
@@ -118,7 +120,7 @@ public class PetsController implements Initializable {
 		showcase.createStep(typeComboBox, "Create a new Pet #2", "Select the type of your pet.");
 		showcase.createStep(addButton, "Create a new Pet #3", "When you have filled all informations, just press the add button");
 				
-		showcase.createStep(petsList, "View all Pet", "After adding a pet, it will be display here, with all his previsously added friends").setLayout(bigLayout);
+		showcase.createStep(petsList, "View all Pet", "After adding a pet, it will be display here, with all his previsously added friends").setLayout(new TooltipShowcaseLayout());
 				
 		showcase.createStep(leaveButton, "Bye !", "You can close the app by clicking the Leave button");
 		
