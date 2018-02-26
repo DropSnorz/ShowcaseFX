@@ -4,22 +4,29 @@ package com.dropsnorz.showcasefx.layers;
 import javafx.geometry.Bounds;
 import javafx.scene.Node;
 import javafx.scene.shape.Shape;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundFill;
-import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.Pane;
-import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 
+/**
+ * A ShowcaseLayerFill is a Layer node generator based on JavaFx shapes
+ * The generated Shape is substracted to a rectangle background sized as the showcase components.
+ */
 public abstract class ShowcaseLayerShape implements ShowcaseLayer {
 	
-	public abstract Shape generate(double parentWidth, double parentHeight, Bounds nodeBounds);
+	/**
+	 * Builds and returns the highlight shape
+	 * @param targetBounds Highlighted element's bounds
+	 * @param parentWidth Showcase component width
+	 * @param parentHeight Showcase component height
+	 * @return The highlight shape
+	 */
+	public abstract Shape generate(Bounds targetBounds, double parentWidth, double parentHeight);
 	
-	public Node generateNode(double parentWidth, double parentHeight, Bounds nodeBounds) {
+	public Node getNode(Bounds targetBounds, double parentWidth, double parentHeight) {
 		
-		Shape clip = this.generate(parentWidth, parentHeight, nodeBounds);
+		Shape clip = this.generate(targetBounds, parentWidth, parentHeight);
 		clip.setFill(Color.rgb(0, 0, 0, 0.6));
 
 		Pane pane = new Pane();
@@ -32,29 +39,19 @@ public abstract class ShowcaseLayerShape implements ShowcaseLayer {
 
 		pane.getChildren().add(shape);
 		
-		
 		return pane;
 	}
 	
 	
-	private void setInverseClip( final Node node, final Shape clip ) {
-		final Rectangle inverse = new Rectangle();
-		inverse.setWidth( node.getLayoutBounds().getWidth() );
-		inverse.setHeight( node.getLayoutBounds().getHeight() );
-		node.setClip( Shape.subtract( inverse, clip ) );
-	}
-	
 	public static ShowcaseLayerShape CIRCLE_FLAT = new ShowcaseLayerShape() {
 
 		@Override
-		public Shape generate(double parentWidth, double parentHeight, Bounds nodeBounds) {
+		public Shape generate(Bounds targetBounds, double parentWidth, double parentHeight) {
 			
-			double centerX = nodeBounds.getMinX() + (nodeBounds.getWidth() / 2);
-			double centerY = nodeBounds.getMinY() + (nodeBounds.getHeight() / 2);
-			
+			double centerX = targetBounds.getMinX() + (targetBounds.getWidth() / 2);
+			double centerY = targetBounds.getMinY() + (targetBounds.getHeight() / 2);
 			int radiusOffset = 8;
-			
-			double radius = Math.max((nodeBounds.getWidth() / 2 + radiusOffset), (nodeBounds.getHeight() / 2 + radiusOffset));
+			double radius = Math.max((targetBounds.getWidth() / 2 + radiusOffset), (targetBounds.getHeight() / 2 + radiusOffset));
 
 			Circle circle = new Circle(centerX, centerY, radius);
 			return circle;
@@ -65,18 +62,15 @@ public abstract class ShowcaseLayerShape implements ShowcaseLayer {
 	public static ShowcaseLayerShape RECTANGLE_FLAT = new ShowcaseLayerShape() {
 
 		@Override
-		public Shape generate(double parentWidth, double parentHeight, Bounds nodeBounds) {
+		public Shape generate(Bounds targetBounds, double parentWidth, double parentHeight) {
 			
 			int offset = 10;
-			
-			Rectangle rectangle = new Rectangle(nodeBounds.getMinX() - offset, 
-					nodeBounds.getMinY() - offset, 
-					nodeBounds.getWidth() + 2*offset, 
-					nodeBounds.getHeight() + 2*offset);
+			Rectangle rectangle = new Rectangle(targetBounds.getMinX() - offset, 
+					targetBounds.getMinY() - offset, 
+					targetBounds.getWidth() + 2*offset, 
+					targetBounds.getHeight() + 2*offset);
 			return rectangle;
 		}
 		
 	};
-
-
 }

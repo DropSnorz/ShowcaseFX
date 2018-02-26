@@ -263,7 +263,7 @@ public class Showcase extends StackPane {
 			
 			this.layerPane.getChildren().clear();
 			if(mountedLayer != null) {
-				Node layerNode = this.mountedLayer.generateNode(this.getWidth(), this.getHeight(), targetBounds);
+				Node layerNode = this.mountedLayer.getNode(targetBounds, this.getWidth(), this.getHeight());
 				this.layerPane.getChildren().add(layerNode);
 			}
 			
