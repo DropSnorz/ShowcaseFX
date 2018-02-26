@@ -11,7 +11,7 @@ import com.dropsnorz.showcasefx.Showcase;
 import com.dropsnorz.showcasefx.ShowcaseStep;
 import com.dropsnorz.showcasefx.layers.ShowcaseLayerShape;
 import com.dropsnorz.showcasefx.layouts.AutoShowcaseLayout;
-import com.dropsnorz.showcasefx.layouts.RelativeShowcaseLayout;
+import com.dropsnorz.showcasefx.layouts.AlignmentShowcaseLayout;
 import com.dropsnorz.showcasefx.layouts.TooltipShowcaseLayout;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
