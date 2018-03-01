@@ -24,12 +24,9 @@ public class TooltipShowcaseLayout extends ShowcaseLayout {
 
 	protected Pane mainPane;
 	protected StackPane contentPane;
-
 	protected DropShadow dropShadow;
 
 	Polygon triangle = new Polygon();
-
-
 
 	public TooltipShowcaseLayout(){
 		mainPane = new Pane();
@@ -57,13 +54,12 @@ public class TooltipShowcaseLayout extends ShowcaseLayout {
 	@Override
 	public void addContentNode(Node content, Bounds targetBoundsInParent, double parentWidth, double parentHeight) {
 
-
 		mainPane.setMaxWidth(parentWidth);
 		mainPane.setMaxHeight(parentHeight);
 
 		contentPane.getChildren().clear();
 		contentPane.getChildren().add(content);
-
+		
 		mainPane.applyCss();
 		mainPane.layout();					
 
@@ -71,8 +67,6 @@ public class TooltipShowcaseLayout extends ShowcaseLayout {
 		int margin = 15;
 
 		Point2D targetCenter = BoundsUtils.getCenter(targetBoundsInParent);
-
-
 		double x = targetCenter.getX() - (this.contentPane.getWidth()/ 2);
 		double y = targetCenter.getY() + contentOffset;
 
@@ -92,21 +86,16 @@ public class TooltipShowcaseLayout extends ShowcaseLayout {
 
 			triangle.getPoints().clear();
 			triangle.getPoints().addAll(10.0, 10.0, 0.0, 0.0, 20.0, 0.0);
-
 			triangle.relocate(targetCenter.getX() - 10, targetCenter.getY() - 2*contentOffset);
-
 			triangle.toFront();
-		}
-		else {
+		}else {
 			triangle.getPoints().clear();
 			triangle.getPoints().addAll(10.0, 0.0,  0.0, 10.0,20.0, 10.0);
 			triangle.relocate(targetCenter.getX() - 10, targetCenter.getY());
 			triangle.toBack();
-
 		}
 
 		contentPane.relocate(x, y);
-
 	}
 
 	@Override

@@ -247,14 +247,14 @@ public class Showcase extends StackPane {
 		}
 
 		if(updateOnTargetBoundsChange) {
-			mountedTarget.boundsInLocalProperty().addListener(boundsListener);
+			mountedTarget.boundsInParentProperty().addListener(boundsListener);
 		}
 	}
 
 	private void unmountStep() {
 
 		if(mountedTarget != null) {
-			mountedTarget.boundsInLocalProperty().removeListener(boundsListener);
+			mountedTarget.boundsInParentProperty().removeListener(boundsListener);
 		}
 	}
 	
