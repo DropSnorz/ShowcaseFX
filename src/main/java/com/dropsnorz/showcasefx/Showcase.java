@@ -11,6 +11,7 @@ import com.dropsnorz.showcasefx.layouts.ShowcaseLayout;
 import com.dropsnorz.showcasefx.views.SimpleStepView;
 
 import javafx.animation.Animation.Status;
+import javafx.application.Platform;
 import javafx.animation.FadeTransition;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
@@ -43,10 +44,12 @@ public class Showcase extends StackPane {
 	private ShowcaseLayout mountedLayout;
 
 	protected ShowcaseBehaviour onClickBehaviour =  ShowcaseBehaviour.NEXT;
-	protected boolean updateOnTargetBoundsChange = false;
+	protected boolean updateOnTargetBoundsChange = true;
 
 	private FadeTransition fadeIn;
 	private FadeTransition fadeOut;
+	
+	private double counter = 0;
 
 
 	private static final String DEFAULT_STYLE_CLASS = "fx-showcase";
@@ -83,8 +86,10 @@ public class Showcase extends StackPane {
 		this.boundsListener = new ChangeListener<Bounds>() {
 			public void changed(ObservableValue<? extends Bounds> observableValue, Bounds oldBounds, Bounds newBounds) {
 				updateShowcaseLayer();
+
 			}
 		};
+		
 
 
 		this.clickHandler = new EventHandler<MouseEvent>() {
@@ -225,6 +230,7 @@ public class Showcase extends StackPane {
 	private void mountStep() {
 
 		unmountStep();
+		
 		ShowcaseStep showcaseStep = this.steps.get(this.currentStep);
 		mountedTarget = showcaseStep.getTargetNode();
 
@@ -241,21 +247,28 @@ public class Showcase extends StackPane {
 		}
 
 		if(updateOnTargetBoundsChange) {
-			mountedTarget.boundsInParentProperty().addListener(boundsListener);
+			mountedTarget.boundsInLocalProperty().addListener(boundsListener);
 		}
 	}
 
 	private void unmountStep() {
 
 		if(mountedTarget != null) {
-			mountedTarget.boundsInParentProperty().removeListener(boundsListener);
+			mountedTarget.boundsInLocalProperty().removeListener(boundsListener);
 		}
 	}
+	
 
 	private synchronized void updateShowcaseLayer() {
+		
 
 		if(currentStep < this.steps.size())
 		{
+			this.applyCss();
+			this.layout();
+			double width = this.getWidth();
+			double height = this.getHeight();
+			
 			ShowcaseStep showcaseStep = this.steps.get(this.currentStep);
 
 			Bounds targetBounds = showcaseContainer.sceneToLocal(mountedTarget.localToScene(mountedTarget.getBoundsInLocal()));
@@ -263,7 +276,7 @@ public class Showcase extends StackPane {
 			
 			this.layerPane.getChildren().clear();
 			if(mountedLayer != null) {
-				Node layerNode = this.mountedLayer.getNode(targetBounds, this.getWidth(), this.getHeight());
+				Node layerNode = this.mountedLayer.getNode(targetBounds,width, height);
 				this.layerPane.getChildren().add(layerNode);
 			}
 			
@@ -279,10 +292,11 @@ public class Showcase extends StackPane {
 
 			currentLayoutNode.setOnMouseClicked(clickHandler);
 						
-			mountedLayout.addContentNode(contentNode, targetBounds, this.getWidth(), this.getHeight());
+			mountedLayout.addContentNode(contentNode, targetBounds, width, height);
 
 			
 		}
+		
 	}
 
 	private void processBehaviour(ShowcaseBehaviour behaviour) {

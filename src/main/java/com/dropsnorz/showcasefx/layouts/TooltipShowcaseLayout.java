@@ -14,6 +14,7 @@ import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Polygon;
@@ -21,8 +22,8 @@ import javafx.scene.transform.Rotate;
 
 public class TooltipShowcaseLayout extends ShowcaseLayout {
 
-	protected AnchorPane mainPane;
-	protected HBox contentPane;
+	protected Pane mainPane;
+	protected StackPane contentPane;
 
 	protected DropShadow dropShadow;
 
@@ -31,8 +32,8 @@ public class TooltipShowcaseLayout extends ShowcaseLayout {
 
 
 	public TooltipShowcaseLayout(){
-		mainPane = new AnchorPane();
-		contentPane = new HBox();
+		mainPane = new Pane();
+		contentPane = new StackPane();
 
 		contentPane.setBackground(new Background(new BackgroundFill(Color.WHITE, CornerRadii.EMPTY, Insets.EMPTY)));
 		contentPane.setPadding(new Insets(10,10,10,10));
@@ -45,7 +46,7 @@ public class TooltipShowcaseLayout extends ShowcaseLayout {
 		dropShadow.setOffsetX(3.0);
 		dropShadow.setOffsetY(3.0);
 		dropShadow.setColor(Color.color(0, 0, 0, 0.5));
-		
+
 		triangle.setEffect(dropShadow);
 		triangle.setFill(Color.WHITE);		
 
@@ -56,69 +57,64 @@ public class TooltipShowcaseLayout extends ShowcaseLayout {
 	@Override
 	public void addContentNode(Node content, Bounds targetBoundsInParent, double parentWidth, double parentHeight) {
 
+
+		mainPane.setMaxWidth(parentWidth);
+		mainPane.setMaxHeight(parentHeight);
+
 		contentPane.getChildren().clear();
 		contentPane.getChildren().add(content);
-		
+
+		mainPane.applyCss();
+		mainPane.layout();					
+
 		int contentOffset = 10;
 		int margin = 15;
 
 		Point2D targetCenter = BoundsUtils.getCenter(targetBoundsInParent);
 
-		// target is in lower half of screen
+
+		double x = targetCenter.getX() - (this.contentPane.getWidth()/ 2);
+		double y = targetCenter.getY() + contentOffset;
+
+		if(targetCenter.getX() > parentWidth - this.contentPane.getWidth()) {
+			//target is in the right side of the screen
+			x = parentWidth -  this.contentPane.getWidth() - margin;
+		}
+		else if(targetCenter.getX() <  this.contentPane.getWidth()) {
+			//target is in the left side of the screen
+			x = margin;
+		}
 
 
-		/*
-		 * This should be run after the next JavaFx thread update.
-		 * contentPane state in scene graph will be refreshed
-		 */
-		Platform.runLater(() -> {
-			double x = targetCenter.getX() - (this.contentPane.getWidth()/ 2);
-			double y = targetCenter.getY() + contentOffset;
-			
-			if(targetCenter.getX() > parentWidth - this.contentPane.getWidth()) {
-				//target is in the right side of the screen
-				x = parentWidth -  this.contentPane.getWidth() - margin;
-			}
-			else if(targetCenter.getX() <  this.contentPane.getWidth()) {
-				//target is in the left side of the screen
-				x = margin;
-			}
-			
-			
-			if(targetCenter.getY() > parentHeight - this.contentPane.getHeight()) {
-				//target is in the bottom side of the screen
-				y = targetCenter.getY() - this.contentPane.getHeight() - 2*contentOffset;
-				
-				triangle.getPoints().clear();
-				triangle.getPoints().addAll(10.0, 10.0, 0.0, 0.0, 20.0, 0.0);
-				
-				triangle.relocate(targetCenter.getX() - 10, targetCenter.getY() - 2*contentOffset);
-				
-				triangle.toFront();
-			}
-			else {
-				triangle.getPoints().clear();
-				triangle.getPoints().addAll(10.0, 0.0,  0.0, 10.0,20.0, 10.0);
-				triangle.relocate(targetCenter.getX() - 10, targetCenter.getY());
-				triangle.toBack();
+		if(targetCenter.getY() > parentHeight - this.contentPane.getHeight()) {
+			//target is in the bottom side of the screen
+			y = targetCenter.getY() - this.contentPane.getHeight() - 2*contentOffset;
 
-			}
+			triangle.getPoints().clear();
+			triangle.getPoints().addAll(10.0, 10.0, 0.0, 0.0, 20.0, 0.0);
 
-			System.out.println(contentPane.getWidth());
-			System.out.println(contentPane.getHeight());
+			triangle.relocate(targetCenter.getX() - 10, targetCenter.getY() - 2*contentOffset);
 
-			contentPane.relocate(x, y);
-		});
+			triangle.toFront();
+		}
+		else {
+			triangle.getPoints().clear();
+			triangle.getPoints().addAll(10.0, 0.0,  0.0, 10.0,20.0, 10.0);
+			triangle.relocate(targetCenter.getX() - 10, targetCenter.getY());
+			triangle.toBack();
+
+		}
+
+		contentPane.relocate(x, y);
 
 	}
 
 	@Override
 	public Node getNode() {
-		// TODO Auto-generated method stub
 		return mainPane;
 	}
-	
-	
+
+
 	public void setTooltipPadding(Insets insets) {
 		this.contentPane.setPadding(insets);
 	}

@@ -11,7 +11,7 @@ import javafx.scene.shape.Rectangle;
 
 /**
  * A ShowcaseLayerFill is a Layer node generator based on JavaFx shapes
- * The generated Shape is substracted to a rectangle background sized as the showcase components.
+ * The generated shape is substracted to a rectangle background sized as the showcase components.
  */
 public abstract class ShowcaseLayerShape implements ShowcaseLayer {
 	
@@ -20,7 +20,7 @@ public abstract class ShowcaseLayerShape implements ShowcaseLayer {
 	 * @param targetBounds Highlighted element's bounds
 	 * @param parentWidth Showcase component width
 	 * @param parentHeight Showcase component height
-	 * @return The highlight shape
+	 * @return highlight shape
 	 */
 	public abstract Shape generate(Bounds targetBounds, double parentWidth, double parentHeight);
 	
