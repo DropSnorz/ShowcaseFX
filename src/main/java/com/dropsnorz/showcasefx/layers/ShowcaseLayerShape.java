@@ -15,6 +15,8 @@ import javafx.scene.shape.Rectangle;
  */
 public abstract class ShowcaseLayerShape implements ShowcaseLayer {
 	
+	private static final String LAYER_STYLE_CLASS = "showcase-layer-shape";
+
 	/**
 	 * Builds and returns the highlight shape
 	 * @param targetBounds Highlighted element's bounds
@@ -35,6 +37,7 @@ public abstract class ShowcaseLayerShape implements ShowcaseLayer {
 		inverse.setWidth( parentWidth );
 		inverse.setHeight( parentHeight);
 		Shape shape = Shape.subtract( inverse, clip );
+		shape.getStyleClass().add(LAYER_STYLE_CLASS);
 		shape.setFill(Color.rgb(0, 0, 0, 0.7));
 
 		pane.getChildren().add(shape);

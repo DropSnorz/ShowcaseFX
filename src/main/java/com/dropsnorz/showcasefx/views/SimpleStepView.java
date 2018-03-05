@@ -19,8 +19,12 @@ public class SimpleStepView extends VBox {
 	protected Label titleLabel;
 	protected Label contentLabel;
 	
+	private static final String DEFAULT_STYLE_CLASS = "simple-step-view";
+
 	
 	public SimpleStepView(String title, String content) {
+		
+		this.getStyleClass().add(DEFAULT_STYLE_CLASS);
 		
 		this.setMaxSize(Region.USE_COMPUTED_SIZE, Region.USE_COMPUTED_SIZE);
 				
@@ -35,7 +39,6 @@ public class SimpleStepView extends VBox {
 				
 		this.getChildren().add(titleLabel);
 		this.getChildren().add(contentLabel);
-		
 		
 		
 	}

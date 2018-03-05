@@ -52,7 +52,7 @@ public class Showcase extends StackPane {
 	private double counter = 0;
 
 
-	private static final String DEFAULT_STYLE_CLASS = "fx-showcase";
+	private static final String DEFAULT_STYLE_CLASS = "showcase";
 
 	public enum ShowcaseBehaviour{
 		NEXT,

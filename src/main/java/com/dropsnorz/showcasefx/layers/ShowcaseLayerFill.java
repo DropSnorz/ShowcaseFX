@@ -17,6 +17,8 @@ import javafx.scene.paint.Stop;
  */
 public abstract class ShowcaseLayerFill implements ShowcaseLayer {
 	
+	private static final String LAYER_STYLE_CLASS = "showcase-layer";
+
 	/**
 	 * Builds and returns the background
 	 * @param targetBounds Highlighted element's bounds
@@ -31,6 +33,8 @@ public abstract class ShowcaseLayerFill implements ShowcaseLayer {
 		Background background = this.generate(targetBounds, parentWidth, parentHeight);
 		Pane pane = new Pane();
 		pane.setBackground(background);
+		
+		pane.getStyleClass().add(LAYER_STYLE_CLASS);
 		
 		return pane;
 	}

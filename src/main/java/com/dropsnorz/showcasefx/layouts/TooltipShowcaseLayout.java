@@ -26,11 +26,20 @@ public class TooltipShowcaseLayout extends ShowcaseLayout {
 	protected StackPane contentPane;
 	protected DropShadow dropShadow;
 
-	Polygon triangle = new Polygon();
+	Polygon triangle;
+	
+	private static final String TOOLTIP_CONTENT_STYLE_CLASS = "tooltip-content";
+	private static final String TOOLTIP_POINTER_STYLE_CLASS = "tooltip-pointer";
+
 
 	public TooltipShowcaseLayout(){
 		mainPane = new Pane();
-		contentPane = new StackPane();
+		contentPane = new StackPane();		
+		triangle = new Polygon();
+		
+		contentPane.getStyleClass().add(TOOLTIP_CONTENT_STYLE_CLASS);
+		triangle.getStyleClass().add(TOOLTIP_POINTER_STYLE_CLASS);
+		
 
 		contentPane.setBackground(new Background(new BackgroundFill(Color.WHITE, CornerRadii.EMPTY, Insets.EMPTY)));
 		contentPane.setPadding(new Insets(10,10,10,10));
