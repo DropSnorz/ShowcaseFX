@@ -22,7 +22,7 @@ public class SimpleStepView extends VBox {
 	private static final String DEFAULT_STYLE_CLASS = "simple-step-view";
 
 	
-	public SimpleStepView(String title, String content) {
+	public SimpleStepView(String title, String body) {
 		
 		this.getStyleClass().add(DEFAULT_STYLE_CLASS);
 		
@@ -32,7 +32,7 @@ public class SimpleStepView extends VBox {
 		titleLabel.setTextFill(Color.BLACK);
 		titleLabel.setFont(Font.font("Verdana", FontWeight.BOLD, 21));
 
-		contentLabel = new Label(content);
+		contentLabel = new Label(body);
 		contentLabel.setTextFill(Color.BLACK);
 		contentLabel.setWrapText(true);
 

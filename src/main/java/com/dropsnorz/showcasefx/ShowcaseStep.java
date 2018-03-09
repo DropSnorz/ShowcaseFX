@@ -21,7 +21,6 @@ public class ShowcaseStep {
 	}
 
 
-
 	public Node getTargetNode() {
 		return targetNode;
 	}
