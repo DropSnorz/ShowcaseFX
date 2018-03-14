@@ -10,12 +10,13 @@ import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 
 /**
- * A ShowcaseLayerFill is a Layer node generator based on JavaFx shapes
+ * A ShowcaseLayerShape is a Layer node generator based on JavaFx shapes
  * The generated shape is substracted to a rectangle background sized as the showcase components.
  */
 public abstract class ShowcaseLayerShape implements ShowcaseLayer {
 	
-	private static final String LAYER_STYLE_CLASS = "showcase-layer-shape";
+	private static final String LAYER_STYLE_CLASS = "showcase-layer";
+	private static final String SHAPE_STYLE_CLASS = "showcase-layer-shape";
 
 	/**
 	 * Builds and returns the highlight shape
@@ -37,9 +38,10 @@ public abstract class ShowcaseLayerShape implements ShowcaseLayer {
 		inverse.setWidth( parentWidth );
 		inverse.setHeight( parentHeight);
 		Shape shape = Shape.subtract( inverse, clip );
-		shape.getStyleClass().add(LAYER_STYLE_CLASS);
+		shape.getStyleClass().add(SHAPE_STYLE_CLASS);
 		shape.setFill(Color.rgb(0, 0, 0, 0.7));
 
+		pane.getStyleClass().add(LAYER_STYLE_CLASS);
 		pane.getChildren().add(shape);
 		
 		return pane;

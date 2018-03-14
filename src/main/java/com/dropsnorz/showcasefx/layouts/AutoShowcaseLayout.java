@@ -30,8 +30,6 @@ public class AutoShowcaseLayout extends ShowcaseLayout {
 
 	protected GridPane mainPane;
 	
-	private static final String CONTENT_STYLE_CLASS = "showcase-step-content";
-
 	public AutoShowcaseLayout() {
 
 		this.mainPane = new GridPane();
@@ -42,9 +40,7 @@ public class AutoShowcaseLayout extends ShowcaseLayout {
 	@Override
 	public void addContentNode(Node content, Bounds targetBoundsInParent, double parentWidth, double parentHeight) {
 
-		
-		content.getStyleClass().add(CONTENT_STYLE_CLASS);
-		
+				
 		double midX = parentWidth / 2;
 		double midY = parentHeight / 2;
 		int rowIndex = 0;

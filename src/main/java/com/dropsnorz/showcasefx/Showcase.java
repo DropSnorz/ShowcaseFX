@@ -55,6 +55,8 @@ public class Showcase extends StackPane {
 	private FadeTransition fadeOut;
 
 	private static final String DEFAULT_STYLE_CLASS = "showcase";
+	private static final String CONTENT_STYLE_CLASS = "showcase-step-content";
+
 
 	public enum ShowcaseBehaviour{
 		NEXT,
@@ -308,6 +310,7 @@ public class Showcase extends StackPane {
 			}
 			
 			Node contentNode = showcaseStep.getContent();
+			contentNode.getStyleClass().add(CONTENT_STYLE_CLASS);
 
 			if(currentLayoutNode !=null) {
 				this.getChildren().remove(currentLayoutNode);
@@ -423,7 +426,10 @@ public class Showcase extends StackPane {
 	public boolean isUpdateOnTargetBoundsChange() {
 		return updateOnTargetBoundsChange;
 	}
-	
+	public void setOnClickBehaviour(ShowcaseBehaviour onClickBehaviour) {
+		this.onClickBehaviour = onClickBehaviour;
+	}
+
 	/**
 	 * Sets the value of updateOnTargetBoundsChange property.
 	 * Defines if the showcase should be updated if target node's bounds changes. Default value: true
