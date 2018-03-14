@@ -29,12 +29,12 @@ import javafx.scene.paint.Color;
 public class AutoShowcaseLayout extends ShowcaseLayout {
 
 	protected GridPane mainPane;
+	
+	private static final String CONTENT_STYLE_CLASS = "showcase-step-content";
 
 	public AutoShowcaseLayout() {
 
 		this.mainPane = new GridPane();
-
-		this.mainPane.setMaxSize(Region.USE_COMPUTED_SIZE, Region.USE_COMPUTED_SIZE);
 		this.mainPane.setPadding(new Insets(10,10,10,10));
 
 	}
@@ -42,6 +42,9 @@ public class AutoShowcaseLayout extends ShowcaseLayout {
 	@Override
 	public void addContentNode(Node content, Bounds targetBoundsInParent, double parentWidth, double parentHeight) {
 
+		
+		content.getStyleClass().add(CONTENT_STYLE_CLASS);
+		
 		double midX = parentWidth / 2;
 		double midY = parentHeight / 2;
 		int rowIndex = 0;
@@ -93,8 +96,6 @@ public class AutoShowcaseLayout extends ShowcaseLayout {
 			col1.setHgrow(Priority.ALWAYS);
 		}
 
-
-
 		Group contentGroup = new Group(content);
 		GridPane.setConstraints(contentGroup, columnIndex, rowIndex, colSpan, rowSpan, HAlignement, VAlignment);
 
@@ -104,14 +105,25 @@ public class AutoShowcaseLayout extends ShowcaseLayout {
 		this.mainPane.getRowConstraints().clear();
 		this.mainPane.getRowConstraints().addAll(row0, row1);
 
-
 		this.mainPane.getChildren().clear();
 		this.mainPane.getChildren().add(contentGroup);
 
-		//Debug
-		//this.mainPane.setGridLinesVisible(false);
-		//this.mainPane.setGridLinesVisible(true);
-
+	}
+	
+	/**
+	 * For debug purpose only, displays layout inner grid 
+	 * @param debug
+	 */
+	public void setDebug(boolean debug) {
+		
+		if(debug) {
+			//Weird thing, sometimes GridLines must be disabled before to show up
+			this.mainPane.setGridLinesVisible(false);
+			this.mainPane.setGridLinesVisible(true);
+		}
+		else {
+			this.mainPane.setGridLinesVisible(false);
+		}
 	}
 
 
