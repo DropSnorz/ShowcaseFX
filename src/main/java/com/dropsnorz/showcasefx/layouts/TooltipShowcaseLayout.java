@@ -28,8 +28,8 @@ public class TooltipShowcaseLayout extends ShowcaseLayout {
 
 	Polygon triangle;
 	
-	private static final String TOOLTIP_CONTENT_STYLE_CLASS = "tooltip-content";
-	private static final String TOOLTIP_POINTER_STYLE_CLASS = "tooltip-pointer";
+	private static final String TOOLTIP_CONTENT_STYLE_CLASS = "showcase-tooltip-content";
+	private static final String TOOLTIP_POINTER_STYLE_CLASS = "showcase-tooltip-pointer";
 
 
 	public TooltipShowcaseLayout(){

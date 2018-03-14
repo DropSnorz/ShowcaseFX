@@ -53,7 +53,8 @@
                   </Label>
                   <HBox alignment="CENTER_RIGHT" BorderPane.alignment="CENTER" HBox.hgrow="ALWAYS">
                      <children>
-                        <JFXButton fx:id="helpButton" buttonType="RAISED" text="Help !" />
+                        <JFXButton fx:id="helpTooltipButton" buttonType="RAISED" text="Help (Tooltips)" />
+                        <JFXButton fx:id="helpAutoButton" buttonType="RAISED" text="Help (Auto)" />
                      </children>
                      <BorderPane.margin>
                         <Insets bottom="20.0" />

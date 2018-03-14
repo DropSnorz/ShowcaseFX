@@ -24,18 +24,17 @@ public class SimpleStepView extends VBox {
 	
 	public SimpleStepView(String title, String body) {
 		
-		this.getStyleClass().add(DEFAULT_STYLE_CLASS);
 		
-		this.setMaxSize(Region.USE_COMPUTED_SIZE, Region.USE_COMPUTED_SIZE);
-				
+		this.setPrefWidth(300);
+		this.getStyleClass().add(DEFAULT_STYLE_CLASS);
+								
 		titleLabel = new Label(title);
-		titleLabel.setTextFill(Color.BLACK);
+		titleLabel.setTextFill(Color.WHITE);
 		titleLabel.setFont(Font.font("Verdana", FontWeight.BOLD, 21));
 
 		contentLabel = new Label(body);
-		contentLabel.setTextFill(Color.BLACK);
+		contentLabel.setTextFill(Color.WHITE);
 		contentLabel.setWrapText(true);
-
 				
 		this.getChildren().add(titleLabel);
 		this.getChildren().add(contentLabel);

@@ -19,3 +19,7 @@
 .list-cell{
     -fx-font-family: OpenSansEmoji;
 }
+
+.showcase-tooltip-content  .label {
+	-fx-text-fill:black;
+}

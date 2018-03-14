@@ -36,7 +36,9 @@ public class PetsController implements Initializable {
 	@FXML
 	StackPane rootPane;
 	@FXML
-	JFXButton helpButton;
+	JFXButton helpTooltipButton;
+	@FXML
+	JFXButton helpAutoButton;
 	@FXML
 	JFXButton leaveButton;
 	@FXML
@@ -54,7 +56,6 @@ public class PetsController implements Initializable {
 	ObservableList<Pet> petsCollection;
 	
 	Showcase showcase;
-	
 	
 	protected List<PetType> types = new ArrayList<PetType>();
 	protected List<String> randomNames = Arrays.asList("Augusta","Lanora","Nathanial","Harrison", "Mica","Chana","Mayola","Hope",
@@ -106,33 +107,40 @@ public class PetsController implements Initializable {
 			}
 		});
 
+		// Tooltip Showcase initialization 
 		
 		showcase = new Showcase(rootPane);
 		
 		showcase.setDefaultLayer(ShowcaseLayerShape.RECTANGLE_FLAT);
-		showcase.setDefaultLayout(new TooltipShowcaseLayout() );
-		
-		AutoShowcaseLayout bigLayout = new AutoShowcaseLayout();
-		bigLayout.setRowOffset(-1);
-		bigLayout.setRowSpan(2);
-		
+		showcase.setDefaultLayout(new TooltipShowcaseLayout());
+	
 		showcase.createStep(nameTextField, "Create a new Pet #1", "Write the name of your pet here.");
 		showcase.createStep(typeComboBox, "Create a new Pet #2", "Select the type of your pet.");
 		showcase.createStep(addButton, "Create a new Pet #3", "When you have filled all informations, just press the add button");
-				
 		showcase.createStep(petsList, "View all Pet", "After adding a pet, it will be display here, with all his previsously added friends");
-				
 		showcase.createStep(leaveButton, "Bye !", "You can close the app by clicking the Leave button");
 		
-		helpButton.setOnAction(new EventHandler<ActionEvent>() {
+		
+		
+		helpTooltipButton.setOnAction(new EventHandler<ActionEvent>() {
 
 			public void handle(ActionEvent event) {
 				
+				showcase.setDefaultLayout(new TooltipShowcaseLayout());
+				showcase.start();
+			}
+		});
+		
+		helpAutoButton.setOnAction(new EventHandler<ActionEvent>() {
+
+			public void handle(ActionEvent event) {
+				
+				showcase.setDefaultLayout(new AutoShowcaseLayout());
 				showcase.start();
 				
 			}
-			
 		});
+		
 
 	}
 	
