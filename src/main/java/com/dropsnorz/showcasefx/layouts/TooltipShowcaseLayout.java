@@ -2,23 +2,18 @@ package com.dropsnorz.showcasefx.layouts;
 
 import com.dropsnorz.showcasefx.utils.BoundsUtils;
 
-import javafx.application.Platform;
 import javafx.geometry.Bounds;
 import javafx.geometry.Insets;
 import javafx.geometry.Point2D;
 import javafx.scene.Node;
 import javafx.scene.effect.DropShadow;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.CornerRadii;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
-import javafx.scene.paint.Paint;
 import javafx.scene.shape.Polygon;
-import javafx.scene.transform.Rotate;
 
 public class TooltipShowcaseLayout extends ShowcaseLayout {
 

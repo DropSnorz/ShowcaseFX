@@ -11,6 +11,7 @@ import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
@@ -24,11 +25,11 @@ public class BasicShowcaseExample extends Application {
 
 	@Override
 	public void start(Stage primaryStage) {
-		Button btn = new Button();
+		Button button = new Button();
 		Button btn2 = new Button("Hi there !");
 
-		btn.setText("Say 'Hello World'");
-		btn.setOnAction(new EventHandler<ActionEvent>() {
+		button.setText("Say 'Hello World'");
+		button.setOnAction(new EventHandler<ActionEvent>() {
 
 			public void handle(ActionEvent event) {
 				System.out.println("Hello World!");
@@ -39,7 +40,7 @@ public class BasicShowcaseExample extends Application {
 		
 		Pane mainPane = new FlowPane();
 		root.getChildren().add(mainPane);
-		mainPane.getChildren().add(btn);
+		mainPane.getChildren().add(button);
 		mainPane.getChildren().add(btn2);
 		
 
@@ -49,10 +50,16 @@ public class BasicShowcaseExample extends Application {
 		primaryStage.setScene(scene);
 		primaryStage.show();
 		
+		Label label = new Label();
+		TextField textField = new TextField();
+		
 		Showcase showcase = new Showcase(root);
 		
-		showcase.createStep(btn, new SimpleStepView("Hi !", "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat"));
-		showcase.createStep(btn2, new SimpleStepView("No Title !", "Hello World")).setLayer(ShowcaseLayerShape.RECTANGLE_FLAT);
+		showcase.createStep(button, "This is a nice button.");
+		showcase.createStep(label, "A small and cute label.");
+		showcase.createStep(textField, "Oh, look at this awesome text field !");
+
+		showcase.start();
 
 		showcase.setOnShowcaseStopped(new EventHandler<ShowcaseEvent>() {
 

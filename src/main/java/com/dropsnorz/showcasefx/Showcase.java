@@ -1,7 +1,6 @@
 package com.dropsnorz.showcasefx;
 
 import java.util.ArrayList;
-import java.util.Date;
 
 import com.dropsnorz.showcasefx.events.ShowcaseEvent;
 import com.dropsnorz.showcasefx.layers.ShowcaseLayer;
@@ -11,7 +10,6 @@ import com.dropsnorz.showcasefx.layouts.ShowcaseLayout;
 import com.dropsnorz.showcasefx.views.SimpleStepView;
 
 import javafx.animation.Animation.Status;
-import javafx.application.Platform;
 import javafx.animation.FadeTransition;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
@@ -410,6 +408,15 @@ public class Showcase extends StackPane {
 	 */
 	public StepBuilder createStep(Node targetNode, String title, String body) {
 		return createStep(targetNode, new SimpleStepView(title, body));
+	}
+	/**
+	 * Generate a {@link StepBuilder} based on a SimpleStepView component and add the related step to the Showcase
+	 * @param targetNode		the target node
+	 * @param body				Body of the SimpleStepView
+	 * @return the step builder
+	 */
+	public StepBuilder createStep(Node targetNode, String body) {
+		return createStep(targetNode, new SimpleStepView("", body));
 	}
 	public int getCurrentPosition() {
 		return this.currentStep;
