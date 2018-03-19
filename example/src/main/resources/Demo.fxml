@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.web.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+<StackPane fx:id="rootPane" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0">
+         <children>
+            <Button fx:id="button1" layoutX="63.0" layoutY="61.0" mnemonicParsing="false" text="Start showcase !" />
+            <Label fx:id="label1" layoutX="417.0" layoutY="331.0" text="Label filled with some text" />
+            <TextField fx:id="textField1" layoutX="330.0" layoutY="61.0" prefHeight="25.0" prefWidth="225.0" />
+            <ProgressBar fx:id="indicator1" layoutX="64.0" layoutY="241.0" prefHeight="90.0" prefWidth="200.0" />
+         </children>
+      </Pane>
+   </children>
+</StackPane>

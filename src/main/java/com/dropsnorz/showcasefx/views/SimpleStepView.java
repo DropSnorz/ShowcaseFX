@@ -17,7 +17,7 @@ public class SimpleStepView extends VBox {
 	public SimpleStepView(String title, String body) {
 		
 		
-		this.setPrefWidth(300);
+		this.setMaxWidth(300);
 		this.getStyleClass().add(DEFAULT_STYLE_CLASS);
 								
 		titleLabel = new Label(title);

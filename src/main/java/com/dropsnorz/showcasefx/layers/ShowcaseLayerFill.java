@@ -17,7 +17,7 @@ import javafx.scene.paint.Stop;
  */
 public abstract class ShowcaseLayerFill implements ShowcaseLayer {
 	
-	private static final String LAYER_STYLE_CLASS = "showcase-layer";
+	private static final String LAYER_FILL_STYLE_CLASS = "showcase-layer-fill";
 
 	/**
 	 * Builds and returns the background
@@ -34,7 +34,7 @@ public abstract class ShowcaseLayerFill implements ShowcaseLayer {
 		Pane pane = new Pane();
 		pane.setBackground(background);
 		
-		pane.getStyleClass().add(LAYER_STYLE_CLASS);
+		pane.getStyleClass().add(LAYER_FILL_STYLE_CLASS);
 		
 		return pane;
 	}

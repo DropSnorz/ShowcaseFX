@@ -41,7 +41,7 @@ public abstract class ShowcaseLayerShape implements ShowcaseLayer {
 		shape.getStyleClass().add(SHAPE_STYLE_CLASS);
 		shape.setFill(Color.rgb(0, 0, 0, 0.7));
 
-		pane.getStyleClass().add(LAYER_STYLE_CLASS);
+		shape.getStyleClass().add(LAYER_STYLE_CLASS);
 		pane.getChildren().add(shape);
 		
 		return pane;
