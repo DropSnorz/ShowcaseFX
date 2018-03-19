@@ -1,4 +1,4 @@
-# ShowcaseFX
+![ShowcaseFX](report/showcasefx.png)
 
 ## Overview
 
