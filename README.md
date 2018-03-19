@@ -1,4 +1,4 @@
-![ShowcaseFX](report/showcasefx.png)
+![ShowcaseFX](doc/showcasefx.png)
 
 ## Overview
 
