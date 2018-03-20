@@ -117,7 +117,7 @@ public class PetsController implements Initializable {
 		showcase.createStep(nameTextField, "Create a new Pet #1", "Write the name of your pet here.");
 		showcase.createStep(typeComboBox, "Create a new Pet #2", "Select the type of your pet.");
 		showcase.createStep(addButton, "Create a new Pet #3", "When you have filled all informations, just press the add button");
-		showcase.createStep(petsList, "View all Pet", "After adding a pet, it will be display here, with all his previsously added friends");
+		showcase.createStep(petsList, "View all Pet", "After adding a pet, he will appear here, with all his friends");
 		showcase.createStep(leaveButton, "Bye !", "You can close the app by clicking the Leave button");
 		
 		

@@ -4,6 +4,8 @@
 
 A Showcase/ Tour-guide component for JavaFx application inspired by Material Design guidelines.
 
+![demo](doc/demo.gif)
+
 
 ## Quick Start
 

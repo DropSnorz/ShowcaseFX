@@ -30,7 +30,7 @@ public abstract class ShowcaseLayerShape implements ShowcaseLayer {
 	public Node getNode(Bounds targetBounds, double parentWidth, double parentHeight) {
 		
 		Shape clip = this.generate(targetBounds, parentWidth, parentHeight);
-		clip.setFill(Color.rgb(0, 0, 0, 0.6));
+		clip.setFill(Color.rgb(0, 0, 0, 0.7));
 
 		Pane pane = new Pane();
 		
