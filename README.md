@@ -21,8 +21,8 @@ showcase.start();
 
 ### Steps, Target and content
 
-Each Steps associates a target node and a content node. **Target** nodes are components to highlight and **content** nodes are extra information added to the scene. 
-Each step can embed custom layout and layering strategies to override the Showcase defaults.
+Each Steps associates a target node and a content node. **Target** nodes are components to highlight and **content** nodes are extra information added to the scene. Each step can embed custom layout and layering strategies to override the Showcase defaults.
+When your are using `Showcase.createStep(Node target, String body, String title)` it automatically creates a content node based on the `SimpleShowcaseView` class. You can still use your own components by calling `Showcase.createStep(Node target, Node custom_content)`
 
 ### Layer and Layouts
 
@@ -43,7 +43,7 @@ If built-in layers doesn't fit your needs you can always define new ones by exte
 
 
 ### Manage Layouts
-NOTE: When you are working with built-in showcase layouts you must fix the size of content nodes as the resizing behaviour are not handled by layouts. Use medhods .`setPrefSize()` or  `setMaxSize()` on content nodes or add css rules `-fx-pref-width`, `-fx-pref-height`, `-fx-max-width`, `-fx-max-height`.
+NOTE: When you are working with built-in layouts you must fix the size of content nodes as the resizing behaviour is not handled by layouts. Use medhods `setMaxSize()` or `setPrefSize()` on content nodes or add css rules `-fx-max-width`, `-fx-max-height`, `-fx-pref-width`, `-fx-pref-height`.
 Built-in Layout:
 - AutoShowcaseLayout (Auto. placement strategy)
 - Tooltip ShowcaseLayout (Put content node inside tooltips)
@@ -51,11 +51,28 @@ Built-in Layout:
 - AlignmentShowcaseLayout (Place the content node aligned with showcase bounds: `TOP`, `BOTTOM_LEFT`,etc...)
 
 Example
-```
-showcase.setLayout(new AutoShowcaseLayout());
+```java
+showcase.setDefaultLayout(new AutoShowcaseLayout());
 ```
 
 If built-in layouts doesn't fit your needs you can always define a new one by extending the `ShowcaseLayout` class.
+```java
+//Creates an absolute layout
+showcase.setDefaultLayout(new ShowcaseLayout() {
+	Pane pane = new Pane();
+	@Override
+	public void addContentNode(Node content, Bounds targetBoundsInParent, double parentWidth,
+			double parentHeight) {
+		pane.getChildren().clear();
+		pane.getChildren().add(content);
+	}
+
+	@Override
+	public Node getNode() {
+		return pane;
+	}
+});
+```
 
 
 ### Events and Behaviours
@@ -71,10 +88,10 @@ Events handler properties: `setOnShowcaseStarted`, `setOnShowcaseStopped`, `setO
 ### Style
 
 
-| Component | Css classes                                            |
-|-----------|--------------------------------------------------------|
-| Showcase  | `showcase`                                             |
-| Step      | `showcase-step-content`, `simple-step-view`            |
-| Layer     | `showcase-layer`, `showcase-layer-shape`               |
-| Layout    | `showcase-tooltip-content`, `showcase-tooltip-pointer` |
+| Component | Css classes                                                     |
+|-----------|-----------------------------------------------------------------|
+| Showcase  | `showcase`                                                      |
+| Step      | `showcase-step-content`, `simple-step-view`                     |
+| Layer     | `showcase-layer`, `showcase-layer-shape`, `showcase-layer-fill` |
+| Layout    | `showcase-tooltip-content`, `showcase-tooltip-pointer`          |
 
