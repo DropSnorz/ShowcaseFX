@@ -97,7 +97,7 @@ public class AutoShowcaseLayout extends ShowcaseLayout {
 	
 	/**
 	 * For debug purpose only, displays layout inner grid 
-	 * @param debug
+	 * @param debug activate or disable layout debugging
 	 */
 	public void setDebug(boolean debug) {
 		

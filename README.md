@@ -9,6 +9,14 @@ A Showcase/ Tour-guide component for JavaFx application inspired by Material Des
 
 ## Quick Start
 
+```xml
+<dependency>
+    <groupId>com.dropsnorz</groupId>
+    <artifactId>showcasefx</artifactId>
+    <version>0.1.0</version>
+</dependency>
+```
+
 ```java
 Showcase showcase = new Showcase(root);
 		

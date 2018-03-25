@@ -348,7 +348,7 @@ public class Showcase extends StackPane {
 
 
 	/**
-	 * Set the default layer used if the current {@link Step} doesn't provide any layer object
+	 * Set the default layer used if the current {@link ShowcaseStep} doesn't provide any layer object
 	 * @param layer		the default layer
 	 */
 	public void setDefaultLayer(ShowcaseLayer layer) {
@@ -356,7 +356,7 @@ public class Showcase extends StackPane {
 	}
 
 	/**
-	 *Get the default layer used if the current {@link Step} doesn't provide any layer object
+	 *Get the default layer used if the current {@link ShowcaseStep} doesn't provide any layer object
 	 * @return the default layer
 	 */
 	public ShowcaseLayer getDefaultLayer() {
@@ -364,7 +364,7 @@ public class Showcase extends StackPane {
 	}
 	
 	/**
-	 * Set the default layout used if the current {@link Step} doesn't provide any layout object
+	 * Set the default layout used if the current {@link ShowcaseStep} doesn't provide any layout object
 	 * @param layout		the default layout
 	 */
 	public void setDefaultLayout(ShowcaseLayout layout) {
@@ -372,7 +372,7 @@ public class Showcase extends StackPane {
 	}
 	
 	/**
-	 *Get the default layout used if the current {@link Step} doesn't provide any layout object
+	 *Get the default layout used if the current {@link ShowcaseStep} doesn't provide any layout object
 	 * @return the default layout
 	 */
 	public ShowcaseLayout getDefaultLayout() {

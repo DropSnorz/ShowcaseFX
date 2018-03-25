@@ -4,7 +4,7 @@
 
 	<groupId>com.dropsnorz</groupId>
 	<artifactId>showcasefx-example</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>0.1.0</version>
 	<packaging>jar</packaging>
 
 	<name>showcasefx-example</name>
@@ -12,6 +12,9 @@
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<maven.compiler.source>1.8</maven.compiler.source>
+		<maven.compiler.target>1.8</maven.compiler.target>
+
 	</properties>
 
 	<dependencies>
@@ -24,7 +27,7 @@
 		<dependency>
 			<groupId>com.dropsnorz</groupId>
 			<artifactId>showcasefx</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
+			<version>0.1.0</version>
 		</dependency>
 		<dependency>
 			<groupId>com.jfoenix</groupId>
